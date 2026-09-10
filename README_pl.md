@@ -1,5 +1,7 @@
 # Coax Calculator
 
+> **Uwaga:** Ten projekt jest forkiem [olgierd/coaxcalculator](https://github.com/olgierd/coaxcalculator). Wszelkie zasługi za oryginalny pomysł, implementację i dane o kablach należą się autorowi — [Olgierdowi](https://github.com/olgierd).
+
 Kalkulator strat w kablach koncentrycznych.
 
 Pozwala obliczyć stratę mocy w sygnale w. cz. dla różnych kabli koncentrycznych, w zależności od częstotliwości, długości i mocy wejściowej.

@@ -1,4 +1,7 @@
 # Coax Calculator
+
+> **Note:** This is a fork of [olgierd/coaxcalculator](https://github.com/olgierd/coaxcalculator). All credit for the original idea, implementation, and cable data goes to its author, [Olgierd](https://github.com/olgierd).
+
 Open source coaxial cable loss calculator.
 
 Calculates total loss for various feedlines, based on frequency, length and input power.
@@ -25,3 +28,7 @@ Since the attenuation is specified for a given frequency values, usually differe
 ## How to contribute?
 
 If your favourite cable is not on the list, please add it to `cables.yaml`, including all the fields as in the example above and open a pull request.
+
+## Credits
+
+This project is a fork of [olgierd/coaxcalculator](https://github.com/olgierd/coaxcalculator), created by [Olgierd](https://github.com/olgierd). Many thanks to him for the original calculator, the interpolation approach, and the curated cable attenuation data.

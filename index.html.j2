@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Coaxial Cable Loss Calculator</title>
 <script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 </head>
 
 <body class="bg-slate-100 min-h-screen text-slate-800">
@@ -23,6 +24,10 @@
       Read more:
       <a href="https://github.com/olgierd/coaxcalculator/blob/main/README.md" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">EN</a> |
       <a href="https://github.com/olgierd/coaxcalculator/blob/main/README_pl.md" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">PL</a>
+    </p>
+    <p class="text-xs text-slate-400 mt-1">
+      A fork of <a href="https://github.com/olgierd/coaxcalculator" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">olgierd/coaxcalculator</a>
+      — original calculator and cable data by <a href="https://github.com/olgierd" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">Olgierd</a>.
     </p>
   </header>
 
@@ -73,6 +78,18 @@
     <p class="text-xs text-slate-400 mt-3">Tip: click a row to pin-highlight it for comparison. Click a column header to sort.</p>
   </div>
 
+  <!-- Loss vs length chart -->
+  <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5 mb-4">
+    <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500 mb-1">Loss vs cable length</h2>
+    <p class="text-xs text-slate-400 mb-3">
+      Loss in dB at the chosen frequency, for each filtered cable. The dashed line marks your chosen length.
+      Pinned cables are drawn thicker.
+    </p>
+    <div class="relative h-80 md:h-96">
+      <canvas id="loss_chart"></canvas>
+    </div>
+  </div>
+
   <!-- Summary line -->
   <p id="summary" class="text-sm text-slate-500 mb-2"></p>
 
@@ -98,6 +115,14 @@
     <p id="no_results" class="hidden text-center text-slate-400 py-8">No cables match the current filters.</p>
   </div>
 
+  <!-- Footer / credits -->
+  <footer class="mt-6 text-center text-xs text-slate-400">
+    This project is a fork of
+    <a href="https://github.com/olgierd/coaxcalculator" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">olgierd/coaxcalculator</a>.
+    All credit for the original idea, implementation, and cable data goes to
+    <a href="https://github.com/olgierd" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">Olgierd</a>.
+  </footer>
+
 </div>
 
 <script>
@@ -105,6 +130,127 @@
 
   var selected = [];
   var sort_state = { column: "att", ascending: true };
+  var loss_chart = null;
+
+  // stable, distinct color per cable key
+  function colorForKey(key) {
+    var hash = 0;
+    for (var i = 0; i < key.length; i++) {
+      hash = (hash * 31 + key.charCodeAt(i)) >>> 0;
+    }
+    var hue = hash % 360;
+    return "hsl(" + hue + ", 70%, 45%)";
+  }
+
+  // plugin drawing a dashed vertical line at the user's chosen length
+  var lengthLinePlugin = {
+    id: 'lengthLine',
+    afterDatasetsDraw(chart) {
+      var length = chart.options.plugins.lengthLine && chart.options.plugins.lengthLine.length;
+      if (!length && length !== 0) return;
+
+      var xScale = chart.scales.x;
+      var yScale = chart.scales.y;
+      if (length < xScale.min || length > xScale.max) return;
+
+      var xPix = xScale.getPixelForValue(length);
+      var ctx = chart.ctx;
+
+      ctx.save();
+      ctx.beginPath();
+      ctx.setLineDash([6, 4]);
+      ctx.strokeStyle = "rgba(15, 23, 42, 0.6)";
+      ctx.lineWidth = 1.5;
+      ctx.moveTo(xPix, yScale.top);
+      ctx.lineTo(xPix, yScale.bottom);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      // label
+      var label = length + " m";
+      ctx.font = "600 11px sans-serif";
+      var textWidth = ctx.measureText(label).width;
+      var tx = Math.min(xPix + 6, xScale.right - textWidth - 4);
+      ctx.fillStyle = "rgba(15, 23, 42, 0.75)";
+      ctx.fillText(label, tx, yScale.top + 12);
+      ctx.restore();
+    }
+  };
+
+  function renderChart(rows, params) {
+    if (typeof Chart === 'undefined') return;   // CDN unavailable
+
+    var xmax = Math.max(100, Math.ceil(params.length * 1.2));
+    var steps = 20;
+
+    var datasets = rows
+      .filter(function(o) { return o.att100m < 10000; })
+      .map(function(o) {
+        var points = [];
+        for (var i = 0; i <= steps; i++) {
+          var x = xmax * i / steps;
+          points.push({ x: x, y: o.att100m * x / 100 });
+        }
+        var pinned = selected.includes(o.key);
+        return {
+          label: o.name,
+          data: points,
+          borderColor: colorForKey(o.key),
+          backgroundColor: colorForKey(o.key),
+          borderWidth: pinned ? 4 : 1.5,
+          pointRadius: 0,
+          pointHitRadius: 6,
+          tension: 0
+        };
+      });
+
+    var config_data = { datasets: datasets };
+    var options = {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: false,
+      interaction: { mode: 'nearest', intersect: false },
+      scales: {
+        x: {
+          type: 'linear',
+          min: 0,
+          max: xmax,
+          title: { display: true, text: 'Cable length (m)' }
+        },
+        y: {
+          min: 0,
+          title: { display: true, text: 'Loss (dB) @ ' + params.freq + ' MHz' }
+        }
+      },
+      plugins: {
+        lengthLine: { length: params.length },
+        legend: {
+          position: 'bottom',
+          labels: { boxWidth: 12, boxHeight: 12, font: { size: 10 } }
+        },
+        tooltip: {
+          callbacks: {
+            title: function(items) { return items.length ? items[0].parsed.x.toFixed(0) + " m" : ""; },
+            label: function(item) { return item.dataset.label + ": " + item.parsed.y.toFixed(2) + " dB"; }
+          }
+        }
+      }
+    };
+
+    if (loss_chart) {
+      loss_chart.data = config_data;
+      loss_chart.options = options;
+      loss_chart.update();
+    }
+    else {
+      loss_chart = new Chart(document.getElementById('loss_chart'), {
+        type: 'line',
+        data: config_data,
+        options: options,
+        plugins: [lengthLinePlugin]
+      });
+    }
+  }
 
   function populateManufacturers() {
     var manufacturers = [];
@@ -331,6 +477,8 @@
     }
 
     var sorted_rows = sortRows(rows);
+
+    renderChart(sorted_rows, params);
 
     // summary line
     document.getElementById('summary').textContent =
