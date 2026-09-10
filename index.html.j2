@@ -1,33 +1,157 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Coaxial Cable Loss Calculator</title>
+<script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body>
-
-<style type="text/css">
-pre { margin: 1 0 0 0; display: block; }
-pre.selected, pre:hover { background-color: #dddddd; }
-.details { margin: 5 0 5 0; font-weight: bold; }
-a:link { text-decoration: none; }
-</style>
+<body class="bg-slate-100 min-h-screen text-slate-800">
 
 <script type="application/json" id="cable_data">
 {{ cable_json }}
 </script>
 
-<input type="number" id="freq" min="1" max="3000" step="1" value="145" onchange="javascript:update();"> MHz<br>
-<input type="number" id="length" min="1" max="3000" step="1" value="10" onchange="javascript:update();"> m<br>
-<input type="number" id="pwr" min="1" max="1500" step="1" value="100" onchange="javascript:update();"> W (Power in)<br>
+<div class="max-w-6xl mx-auto px-4 py-8">
 
-<p id="output"></p>
+  <!-- Header -->
+  <header class="mb-6">
+    <h1 class="text-3xl font-bold tracking-tight text-slate-900">Coaxial Cable Loss Calculator</h1>
+    <p class="text-slate-500 mt-1">
+      Compare attenuation and power loss across coax cables.
+      Read more:
+      <a href="https://github.com/olgierd/coaxcalculator/blob/main/README.md" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">EN</a> |
+      <a href="https://github.com/olgierd/coaxcalculator/blob/main/README_pl.md" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">PL</a>
+    </p>
+  </header>
 
-<pre>Read more: <a href="https://github.com/olgierd/coaxcalculator/blob/main/README.md">EN</a> | <a href="https://github.com/olgierd/coaxcalculator/blob/main/README_pl.md">PL</a>. 
+  <!-- Parameters card -->
+  <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5 mb-4">
+    <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500 mb-3">Parameters</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <label class="block">
+        <span class="text-sm font-medium text-slate-700">Frequency (MHz)</span>
+        <input type="number" id="freq" min="1" max="10000" step="1" value="145" oninput="update();"
+               class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+      </label>
+      <label class="block">
+        <span class="text-sm font-medium text-slate-700">Cable length (m)</span>
+        <input type="number" id="length" min="1" max="3000" step="1" value="10" oninput="update();"
+               class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+      </label>
+      <label class="block">
+        <span class="text-sm font-medium text-slate-700">Power in (W)</span>
+        <input type="number" id="pwr" min="1" max="1500" step="1" value="100" oninput="update();"
+               class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+      </label>
+    </div>
+  </div>
+
+  <!-- Filters card -->
+  <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5 mb-4">
+    <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500 mb-3">Filters</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <label class="block">
+        <span class="text-sm font-medium text-slate-700">Search</span>
+        <input type="search" id="search" placeholder="e.g. RG-213, H155, Ecoflex…" oninput="update();"
+               class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+      </label>
+      <label class="block">
+        <span class="text-sm font-medium text-slate-700">Manufacturer</span>
+        <select id="manufacturer" onchange="update();"
+                class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+        </select>
+      </label>
+      <label class="block">
+        <span class="text-sm font-medium text-slate-700">Impedance</span>
+        <select id="impedance" onchange="update();"
+                class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+        </select>
+      </label>
+    </div>
+    <p class="text-xs text-slate-400 mt-3">Tip: click a row to pin-highlight it for comparison. Click a column header to sort.</p>
+  </div>
+
+  <!-- Summary line -->
+  <p id="summary" class="text-sm text-slate-500 mb-2"></p>
+
+  <!-- Results table -->
+  <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm">
+        <thead class="bg-slate-50 text-slate-600 sticky top-0">
+          <tr id="table_header">
+            <th data-sort="name" class="px-4 py-3 text-left font-semibold cursor-pointer select-none hover:text-slate-900">Cable</th>
+            <th data-sort="manufacturer" class="px-4 py-3 text-left font-semibold cursor-pointer select-none hover:text-slate-900">Manufacturer</th>
+            <th data-sort="att" class="px-4 py-3 text-right font-semibold cursor-pointer select-none hover:text-slate-900">Loss (dB)</th>
+            <th data-sort="loss_percentage" class="px-4 py-3 text-right font-semibold cursor-pointer select-none hover:text-slate-900">Loss (%)</th>
+            <th data-sort="pwr_out" class="px-4 py-3 text-right font-semibold cursor-pointer select-none hover:text-slate-900">Power out (W)</th>
+            <th data-sort="diameter" class="px-4 py-3 text-right font-semibold cursor-pointer select-none hover:text-slate-900 hidden md:table-cell">Ø (mm)</th>
+            <th data-sort="vf" class="px-4 py-3 text-right font-semibold cursor-pointer select-none hover:text-slate-900 hidden md:table-cell">VF</th>
+            <th class="px-4 py-3 text-center font-semibold">Datasheet</th>
+          </tr>
+        </thead>
+        <tbody id="table_body" class="divide-y divide-slate-100"></tbody>
+      </table>
+    </div>
+    <p id="no_results" class="hidden text-center text-slate-400 py-8">No cables match the current filters.</p>
+  </div>
+
+</div>
 
 <script>
   var cables = JSON.parse(document.getElementById('cable_data').innerHTML);
 
   var selected = [];
+  var sort_state = { column: "att", ascending: true };
+
+  function populateManufacturers() {
+    var manufacturers = [];
+    for (var key in cables) {
+      if(cables[key].manufacturer && !manufacturers.includes(cables[key].manufacturer)) {
+        manufacturers.push(cables[key].manufacturer);
+      }
+    }
+    manufacturers.sort(function(a, b) { return a.toLowerCase().localeCompare(b.toLowerCase()); });
+
+    var select = document.getElementById('manufacturer');
+    var all_option = document.createElement('option');
+    all_option.value = "";
+    all_option.text = "All manufacturers";
+    select.appendChild(all_option);
+
+    manufacturers.forEach(m => {
+      var option = document.createElement('option');
+      option.value = m;
+      option.text = m;
+      select.appendChild(option);
+    });
+  }
+
+  function populateImpedances() {
+    var impedances = [];
+    for (var key in cables) {
+      var imp = cables[key].additional_info && cables[key].additional_info.impedance;
+      if(imp && !impedances.includes(imp)) {
+        impedances.push(imp);
+      }
+    }
+    impedances.sort(function(a, b) { return a - b; });
+
+    var select = document.getElementById('impedance');
+    var all_option = document.createElement('option');
+    all_option.value = "";
+    all_option.text = "Any impedance";
+    select.appendChild(all_option);
+
+    impedances.forEach(imp => {
+      var option = document.createElement('option');
+      option.value = imp;
+      option.text = imp + " Ω";
+      select.appendChild(option);
+    });
+  }
 
   function get_att_for_freq(att_data, frequency) {
 
@@ -62,35 +186,54 @@ a:link { text-decoration: none; }
 
   }
 
-  function sortByAtt(rows) {
-    return rows.sort(function(a,b) {
-        return a.att100m - b.att100m
+  function sortRows(rows) {
+    var col = sort_state.column;
+    var dir = sort_state.ascending ? 1 : -1;
+
+    return rows.sort(function(a, b) {
+      var va = a.sort_values[col];
+      var vb = b.sort_values[col];
+
+      // missing values always go last
+      var a_missing = (va === null || va === undefined || va === "");
+      var b_missing = (vb === null || vb === undefined || vb === "");
+      if(a_missing && b_missing) return 0;
+      if(a_missing) return 1;
+      if(b_missing) return -1;
+
+      if(typeof va === "string") {
+        return dir * va.toLowerCase().localeCompare(vb.toLowerCase());
+      }
+      return dir * (va - vb);
     });
   }
 
   function generateOutputStrings(cable_data, params) {
     output = {
-      att: "-",
-      pwr_out: "-",
-      loss_percentage: "-"
+      att: "—",
+      pwr_out: "—",
+      loss_percentage: "—",
+      att_num: null,
+      pwr_out_num: null,
+      loss_percentage_num: null
     }
 
     if(cable_data.att100m < 10000) {
       // calculate output power & percentage loss
-      output.att = cable_data.att100m * params.length/100;
-      output.pwr_out = 10**(Math.log10(params.pwr_in)-output.att/10);
-      output.loss_percentage = 100-10**(Math.log10(100)-output.att/10);
+      output.att_num = cable_data.att100m * params.length/100;
+      output.pwr_out_num = 10**(Math.log10(params.pwr_in)-output.att_num/10);
+      output.loss_percentage_num = 100-10**(Math.log10(100)-output.att_num/10);
 
       // round and change to strings
-      output.att = (Math.round(output.att*100)/100).toFixed(2);
-      output.pwr_out = (Math.round(output.pwr_out*100)/100).toFixed(2);
-      output.loss_percentage = (Math.round(output.loss_percentage*10)/10).toFixed(1);
+      output.att = (Math.round(output.att_num*100)/100).toFixed(2);
+      output.pwr_out = (Math.round(output.pwr_out_num*100)/100).toFixed(2);
+      output.loss_percentage = (Math.round(output.loss_percentage_num*10)/10).toFixed(1);
     }
 
     return output;
   }
 
-  function select(key) {
+  function toggleSelect(key) {
     if(!selected.includes(key)) {
       selected.push(key);
     }
@@ -101,65 +244,151 @@ a:link { text-decoration: none; }
     update();
   }
 
+  function setSort(column) {
+    if(sort_state.column === column) {
+      sort_state.ascending = !sort_state.ascending;
+    }
+    else {
+      sort_state.column = column;
+      sort_state.ascending = true;
+    }
+    update();
+  }
+
+  function updateHeaderIndicators() {
+    document.querySelectorAll('#table_header th[data-sort]').forEach(th => {
+      var base = th.textContent.replace(/[\u25B2\u25BC]\s*$/, '').trim();
+      if(th.dataset.sort === sort_state.column) {
+        th.textContent = base + (sort_state.ascending ? " \u25B2" : " \u25BC");
+      }
+      else {
+        th.textContent = base;
+      }
+    });
+  }
+
   function update() {
 
     // read input parameters
     params = {
       "freq": parseFloat(document.getElementById('freq').value),
       "length": parseFloat(document.getElementById('length').value),
-      "pwr_in": parseFloat(document.getElementById('pwr').value)
+      "pwr_in": parseFloat(document.getElementById('pwr').value),
+      "manufacturer": document.getElementById('manufacturer').value,
+      "impedance": document.getElementById('impedance').value,
+      "search": document.getElementById('search').value.trim().toLowerCase()
     };
 
     var rows = [];
 
     // calculate attenuation for a given freq for every cable (/100 m)
     for (var key in cables) {
+      var cable = cables[key];
+      var info = cable.additional_info || {};
+
+      // skip cables from other manufacturers, if a filter is set
+      if(params.manufacturer && cable.manufacturer != params.manufacturer) {
+        continue;
+      }
+
+      // impedance filter
+      if(params.impedance && String(info.impedance) !== params.impedance) {
+        continue;
+      }
+
+      // free-text search on name, manufacturer and type
+      if(params.search) {
+        var haystack = [cable.name, cable.manufacturer, cable.type].join(" ").toLowerCase();
+        if(!haystack.includes(params.search)) {
+          continue;
+        }
+      }
+
       cur = {
         key: key,
-        name: cables[key].name,
-        att100m: get_att_for_freq(cables[key]["attenuation"], params.freq),
-        link: cables[key].data_source
+        name: cable.name,
+        manufacturer: cable.manufacturer || "—",
+        att100m: get_att_for_freq(cable["attenuation"], params.freq),
+        link: cable.data_source,
+        diameter: (info.ext_diameter_mm !== undefined) ? info.ext_diameter_mm : null,
+        vf: (info.velocity_factor !== undefined) ? info.velocity_factor : null
       }
 
       // add extra params (dB/power loss per specified cable length)
-      rows.push(Object.assign({}, cur, generateOutputStrings(cur, params)));
+      var row = Object.assign({}, cur, generateOutputStrings(cur, params));
+
+      row.sort_values = {
+        name: row.name,
+        manufacturer: cable.manufacturer || null,
+        att: row.att_num,
+        loss_percentage: row.loss_percentage_num,
+        pwr_out: row.pwr_out_num,
+        diameter: row.diameter,
+        vf: row.vf
+      };
+
+      rows.push(row);
     }
 
-    // sort by attenuation
-    sorted_rows = sortByAtt(rows)
+    var sorted_rows = sortRows(rows);
 
-    output_p = document.getElementById("output");
-    output_p.innerHTML = ''
+    // summary line
+    document.getElementById('summary').textContent =
+      "Calculating for " + params.freq + " MHz, " + params.length + " m, " + params.pwr_in + " W input — " +
+      sorted_rows.length + " cable(s) shown. \u201C\u2014\u201D means no attenuation data at this frequency.";
 
-    // generate header
-    out_row = document.createElement('pre');
-    output =  "Calculating for " + params.freq + " MHz & " + params.length + " meter(s) & " + params.pwr_in + " Watts input: <br><br>";
-    output += "<b>Cable" + ' '.repeat(31) + "Loss          Power out</b></br>"
+    var tbody = document.getElementById('table_body');
+    tbody.innerHTML = '';
 
-    out_row.innerHTML = output;
-    output_p.appendChild(out_row);
+    document.getElementById('no_results').classList.toggle('hidden', sorted_rows.length > 0);
 
     sorted_rows.forEach(o => {
-      out_row = document.createElement('pre');
-      out_row.id = o.key;
+      var tr = document.createElement('tr');
+      tr.id = o.key;
+      tr.className = "cursor-pointer transition-colors " +
+        (selected.includes(o.key)
+          ? "bg-amber-100 hover:bg-amber-200"
+          : "hover:bg-slate-50");
+      tr.onclick = function(event) {
+        // don't toggle selection when clicking the datasheet link
+        if(event.target.tagName === 'A') return;
+        toggleSelect(o.key);
+      };
 
-      // select clicked rows 
-      out_row.onclick = function(event) { select(o.key) };
-      if(selected.includes(o.key)) {
-        out_row.className = "selected";
-      }
+      var cells = [
+        { html: '<span class="font-medium text-slate-900">' + o.name + '</span>', cls: "px-4 py-2.5 text-left" },
+        { html: o.manufacturer, cls: "px-4 py-2.5 text-left text-slate-500" },
+        { html: o.att, cls: "px-4 py-2.5 text-right tabular-nums font-medium" },
+        { html: o.loss_percentage, cls: "px-4 py-2.5 text-right tabular-nums" },
+        { html: o.pwr_out, cls: "px-4 py-2.5 text-right tabular-nums" },
+        { html: (o.diameter !== null ? o.diameter : "—"), cls: "px-4 py-2.5 text-right tabular-nums text-slate-500 hidden md:table-cell" },
+        { html: (o.vf !== null ? o.vf : "—"), cls: "px-4 py-2.5 text-right tabular-nums text-slate-500 hidden md:table-cell" },
+        { html: o.link
+            ? '<a href="' + o.link + '" target="_blank" rel="noopener noreferrer" class="inline-block rounded-md bg-blue-50 text-blue-700 px-2 py-0.5 text-xs font-medium hover:bg-blue-100">pdf</a>'
+            : "—",
+          cls: "px-4 py-2.5 text-center" }
+      ];
 
-      output = "";
-      output += o.name.padEnd(25)
-      output += o.att.padStart(10) + " dB"
-      output += o.loss_percentage.padStart(6) + "%" + o.pwr_out.padStart(11) + " W";
-      output += "    (<a href='" + o.link + "' target='_blank' rel='noopener noreferrer'>pdf</a>)"
-      out_row.innerHTML = output;
-      output_p.appendChild(out_row);
+      cells.forEach(c => {
+        var td = document.createElement('td');
+        td.className = c.cls;
+        td.innerHTML = c.html;
+        tr.appendChild(td);
+      });
+
+      tbody.appendChild(tr);
     });
+
+    updateHeaderIndicators();
 
   }
 
+  document.querySelectorAll('#table_header th[data-sort]').forEach(th => {
+    th.addEventListener('click', function() { setSort(th.dataset.sort); });
+  });
+
+  populateManufacturers();
+  populateImpedances();
   update();
 
 </script>

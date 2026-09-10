@@ -415,6 +415,26 @@ RG-214:
     ext_diameter_mm: 10.8
     velocity_factor: 66
     impedance: 50
+UltraFlex-10:
+  name: UltraFlex 10 (M&P)
+  manufacturer: M&P
+  type: UltraFlex 10
+  attenuation: { 1.8: 0.8, 3.5: 1.0, 7: 1.2, 10: 1.3, 14: 1.5, 21: 1.8, 28: 2.0, 50: 2.7, 100: 3.9, 144: 4.7, 200: 5.7, 400: 8.3, 430: 8.6, 800: 12.1, 1000: 13.8, 1296: 16.4, 2400: 23.7, 3000: 27.3, 4000: 32.9, 5000: 38.9, 6000: 44.5, 7000: 50.2, 8000: 55.8 }
+  data_source: https://messi.it/dati/layout/files/CartellaElementi/ultraflex10-full-datasheet-eng.pdf
+  additional_info:
+    ext_diameter_mm: 10.3
+    velocity_factor: 0.83
+    impedance: 50
+ContestFlex-10:
+  name: Contest Flex 10 (M&P)
+  manufacturer: M&P
+  type: Contest Flex 10
+  attenuation: { 1.8: 0.5, 3.5: 0.8, 7: 1.1, 10: 1.3, 14: 1.5, 21: 1.8, 28: 2.1, 50: 3.0, 144: 5.4, 430: 10.5, 462: 11.0, 467: 11.1 }
+  data_source: https://messi.it/dati/layout/files/CartellaElementi/CONTESTFLEX%2010.pdf
+  additional_info:
+    ext_diameter_mm: 10.3
+    velocity_factor: 0.87
+    impedance: 50
 FSJ4-50B:
   name: FSJ4-50B (Commscope)
   manufacturer: Commscope
