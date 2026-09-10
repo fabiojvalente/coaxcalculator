@@ -19,44 +19,47 @@
   <!-- Header -->
   <header class="mb-6">
     <h1 class="text-3xl font-bold tracking-tight text-slate-900">Coaxial Cable Loss Calculator</h1>
-    <p class="text-slate-500 mt-1">
-      Compare attenuation and power loss across coax cables.
-      Read more:
-      <a href="https://github.com/olgierd/coaxcalculator/blob/main/README.md" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">EN</a> |
-      <a href="https://github.com/olgierd/coaxcalculator/blob/main/README_pl.md" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">PL</a>
-    </p>
-    <p class="text-xs text-slate-400 mt-1">
-      A fork of <a href="https://github.com/olgierd/coaxcalculator" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">olgierd/coaxcalculator</a>
-      — original calculator and cable data by <a href="https://github.com/olgierd" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">Olgierd</a>.
-    </p>
+    <p class="text-slate-500 mt-1">Compare attenuation and power loss across coax cables.</p>
   </header>
 
   <!-- Parameters card -->
   <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5 mb-4">
     <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500 mb-3">Parameters</h2>
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-      <label class="block">
+      <label class="block sm:col-span-1">
         <span class="text-sm font-medium text-slate-700">Frequency (MHz)</span>
-        <input type="number" id="freq" min="1" max="10000" step="1" value="145" oninput="update();"
+        <input type="number" id="freq" min="0.1" max="10000" step="0.001" value="145" oninput="updateBandButtons(); update();"
                class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
       </label>
-      <label class="block">
-        <span class="text-sm font-medium text-slate-700">Cable length (m)</span>
-        <input type="number" id="length" min="1" max="3000" step="1" value="10" oninput="update();"
+      <div class="block">
+        <div class="flex items-center justify-between gap-2">
+          <span class="text-sm font-medium text-slate-700">Cable length</span>
+          <div class="inline-flex rounded-md border border-slate-300 overflow-hidden text-xs font-medium" role="group" aria-label="Length unit">
+            <button type="button" id="unit_m" onclick="setLengthUnit('m')"
+                    class="px-2.5 py-1 transition-colors">m</button>
+            <button type="button" id="unit_ft" onclick="setLengthUnit('ft')"
+                    class="px-2.5 py-1 border-l border-slate-300 transition-colors">ft</button>
+          </div>
+        </div>
+        <input type="number" id="length" min="0.1" max="10000" step="0.1" value="10" oninput="update();"
                class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-      </label>
+      </div>
       <label class="block">
         <span class="text-sm font-medium text-slate-700">Power in (W)</span>
         <input type="number" id="pwr" min="1" max="1500" step="1" value="100" oninput="update();"
                class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
       </label>
     </div>
+    <div class="mt-4">
+      <span class="text-sm font-medium text-slate-700">Amateur band (mid)</span>
+      <div id="band_buttons" class="mt-2 flex flex-wrap gap-1.5"></div>
+    </div>
   </div>
 
   <!-- Filters card -->
   <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5 mb-4">
     <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500 mb-3">Filters</h2>
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
       <label class="block">
         <span class="text-sm font-medium text-slate-700">Search</span>
         <input type="search" id="search" placeholder="e.g. RG-213, H155, Ecoflex…" oninput="update();"
@@ -65,12 +68,6 @@
       <label class="block">
         <span class="text-sm font-medium text-slate-700">Manufacturer</span>
         <select id="manufacturer" onchange="update();"
-                class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-        </select>
-      </label>
-      <label class="block">
-        <span class="text-sm font-medium text-slate-700">Impedance</span>
-        <select id="impedance" onchange="update();"
                 class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
         </select>
       </label>
@@ -116,11 +113,18 @@
   </div>
 
   <!-- Footer / credits -->
-  <footer class="mt-6 text-center text-xs text-slate-400">
-    This project is a fork of
-    <a href="https://github.com/olgierd/coaxcalculator" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">olgierd/coaxcalculator</a>.
-    All credit for the original idea, implementation, and cable data goes to
-    <a href="https://github.com/olgierd" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">Olgierd</a>.
+  <footer class="mt-6 text-center text-xs text-slate-400 space-y-1">
+    <p>
+      This project is a fork of
+      <a href="https://github.com/olgierd/coaxcalculator" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">olgierd/coaxcalculator</a>.
+      All credit for the original idea, implementation, and cable data goes to
+      <a href="https://github.com/olgierd" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">Olgierd</a>.
+    </p>
+    <p>
+      <a href="https://github.com/olgierd/coaxcalculator/blob/main/README.md" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">How it works</a>
+      ·
+      <a href="https://github.com/olgierd/coaxcalculator/blob/main/README_pl.md" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">Jak to działa</a>
+    </p>
   </footer>
 
 </div>
@@ -131,6 +135,39 @@
   var selected = [];
   var sort_state = { column: "att", ascending: true };
   var loss_chart = null;
+  var length_unit = "m";   // "m" or "ft"
+  var FT_PER_M = 3.280839895;
+
+  function lengthToMeters(value, unit) {
+    return unit === "ft" ? value / FT_PER_M : value;
+  }
+
+  function metersToUnit(meters, unit) {
+    return unit === "ft" ? meters * FT_PER_M : meters;
+  }
+
+  function setLengthUnit(unit) {
+    if (unit === length_unit) return;
+    var input = document.getElementById("length");
+    var val = parseFloat(input.value);
+    if (!isNaN(val)) {
+      var meters = lengthToMeters(val, length_unit);
+      var converted = metersToUnit(meters, unit);
+      input.value = (Math.round(converted * 10) / 10);
+    }
+    length_unit = unit;
+    updateLengthUnitUI();
+    update();
+  }
+
+  function updateLengthUnitUI() {
+    var active = "bg-blue-600 text-white";
+    var inactive = "bg-white text-slate-700 hover:bg-slate-50";
+    document.getElementById("unit_m").className =
+      "px-2.5 py-1 transition-colors " + (length_unit === "m" ? active : inactive);
+    document.getElementById("unit_ft").className =
+      "px-2.5 py-1 border-l border-slate-300 transition-colors " + (length_unit === "ft" ? active : inactive);
+  }
 
   // stable, distinct color per cable key
   function colorForKey(key) {
@@ -146,7 +183,9 @@
   var lengthLinePlugin = {
     id: 'lengthLine',
     afterDatasetsDraw(chart) {
-      var length = chart.options.plugins.lengthLine && chart.options.plugins.lengthLine.length;
+      var cfg = chart.options.plugins.lengthLine || {};
+      var length = cfg.length;
+      var unit = cfg.unit || "m";
       if (!length && length !== 0) return;
 
       var xScale = chart.scales.x;
@@ -167,7 +206,7 @@
       ctx.setLineDash([]);
 
       // label
-      var label = length + " m";
+      var label = length + " " + unit;
       ctx.font = "600 11px sans-serif";
       var textWidth = ctx.measureText(label).width;
       var tx = Math.min(xPix + 6, xScale.right - textWidth - 4);
@@ -180,8 +219,13 @@
   function renderChart(rows, params) {
     if (typeof Chart === 'undefined') return;   // CDN unavailable
 
-    var xmax = Math.max(100, Math.ceil(params.length * 1.2));
+    var unit = params.length_unit;
+    // chart x-axis is in the display unit; attenuation data is per 100 m
+    var display_length = params.length_display;
+    var xmin_span = 100;  // at least 100 of the current unit
+    var xmax = Math.max(xmin_span, Math.ceil(display_length * 1.2));
     var steps = 20;
+    var meters_per_display = (unit === "ft") ? (1 / FT_PER_M) : 1;
 
     var datasets = rows
       .filter(function(o) { return o.att100m < 10000; })
@@ -189,7 +233,8 @@
         var points = [];
         for (var i = 0; i <= steps; i++) {
           var x = xmax * i / steps;
-          points.push({ x: x, y: o.att100m * x / 100 });
+          var meters = x * meters_per_display;
+          points.push({ x: x, y: o.att100m * meters / 100 });
         }
         var pinned = selected.includes(o.key);
         return {
@@ -215,7 +260,7 @@
           type: 'linear',
           min: 0,
           max: xmax,
-          title: { display: true, text: 'Cable length (m)' }
+          title: { display: true, text: 'Cable length (' + unit + ')' }
         },
         y: {
           min: 0,
@@ -223,14 +268,14 @@
         }
       },
       plugins: {
-        lengthLine: { length: params.length },
+        lengthLine: { length: display_length, unit: unit },
         legend: {
           position: 'bottom',
           labels: { boxWidth: 12, boxHeight: 12, font: { size: 10 } }
         },
         tooltip: {
           callbacks: {
-            title: function(items) { return items.length ? items[0].parsed.x.toFixed(0) + " m" : ""; },
+            title: function(items) { return items.length ? items[0].parsed.x.toFixed(0) + " " + unit : ""; },
             label: function(item) { return item.dataset.label + ": " + item.parsed.y.toFixed(2) + " dB"; }
           }
         }
@@ -275,27 +320,54 @@
     });
   }
 
-  function populateImpedances() {
-    var impedances = [];
-    for (var key in cables) {
-      var imp = cables[key].additional_info && cables[key].additional_info.impedance;
-      if(imp && !impedances.includes(imp)) {
-        impedances.push(imp);
-      }
-    }
-    impedances.sort(function(a, b) { return a - b; });
+  // Mid-band frequencies for common amateur allocations
+  var AMATEUR_BANDS = [
+    { label: "160m", mhz: 1.900 },
+    { label: "80m",  mhz: 3.750 },
+    { label: "60m",  mhz: 5.357 },
+    { label: "40m",  mhz: 7.150 },
+    { label: "30m",  mhz: 10.125 },
+    { label: "20m",  mhz: 14.175 },
+    { label: "17m",  mhz: 18.118 },
+    { label: "15m",  mhz: 21.225 },
+    { label: "12m",  mhz: 24.940 },
+    { label: "10m",  mhz: 28.850 },
+    { label: "6m",   mhz: 52.000 },
+    { label: "4m",   mhz: 70.200 },
+    { label: "2m",   mhz: 145.000 },
+    { label: "70cm", mhz: 435.000 },
+    { label: "23cm", mhz: 1296.000 }
+  ];
 
-    var select = document.getElementById('impedance');
-    var all_option = document.createElement('option');
-    all_option.value = "";
-    all_option.text = "Any impedance";
-    select.appendChild(all_option);
+  function setBandFrequency(mhz) {
+    document.getElementById('freq').value = mhz;
+    updateBandButtons();
+    update();
+  }
 
-    impedances.forEach(imp => {
-      var option = document.createElement('option');
-      option.value = imp;
-      option.text = imp + " Ω";
-      select.appendChild(option);
+  function populateBandButtons() {
+    var container = document.getElementById('band_buttons');
+    AMATEUR_BANDS.forEach(function(band) {
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.dataset.mhz = band.mhz;
+      btn.textContent = band.label;
+      btn.title = band.mhz + " MHz";
+      btn.className = "band-btn rounded-md border px-2.5 py-1 text-xs font-medium transition-colors";
+      btn.onclick = function() { setBandFrequency(band.mhz); };
+      container.appendChild(btn);
+    });
+    updateBandButtons();
+  }
+
+  function updateBandButtons() {
+    var freq = parseFloat(document.getElementById('freq').value);
+    document.querySelectorAll('.band-btn').forEach(function(btn) {
+      var active = Math.abs(parseFloat(btn.dataset.mhz) - freq) < 0.0005;
+      btn.className = "band-btn rounded-md border px-2.5 py-1 text-xs font-medium transition-colors " +
+        (active
+          ? "border-blue-600 bg-blue-600 text-white"
+          : "border-slate-300 bg-white text-slate-700 hover:border-blue-400 hover:bg-blue-50");
     });
   }
 
@@ -415,13 +487,16 @@
 
   function update() {
 
-    // read input parameters
+    var length_display = parseFloat(document.getElementById('length').value);
+
+    // read input parameters — calculations always use metres
     params = {
       "freq": parseFloat(document.getElementById('freq').value),
-      "length": parseFloat(document.getElementById('length').value),
+      "length": lengthToMeters(length_display, length_unit),
+      "length_display": length_display,
+      "length_unit": length_unit,
       "pwr_in": parseFloat(document.getElementById('pwr').value),
       "manufacturer": document.getElementById('manufacturer').value,
-      "impedance": document.getElementById('impedance').value,
       "search": document.getElementById('search').value.trim().toLowerCase()
     };
 
@@ -434,11 +509,6 @@
 
       // skip cables from other manufacturers, if a filter is set
       if(params.manufacturer && cable.manufacturer != params.manufacturer) {
-        continue;
-      }
-
-      // impedance filter
-      if(params.impedance && String(info.impedance) !== params.impedance) {
         continue;
       }
 
@@ -482,7 +552,8 @@
 
     // summary line
     document.getElementById('summary').textContent =
-      "Calculating for " + params.freq + " MHz, " + params.length + " m, " + params.pwr_in + " W input — " +
+      "Calculating for " + params.freq + " MHz, " + params.length_display + " " + params.length_unit +
+      ", " + params.pwr_in + " W input — " +
       sorted_rows.length + " cable(s) shown. \u201C\u2014\u201D means no attenuation data at this frequency.";
 
     var tbody = document.getElementById('table_body');
@@ -536,7 +607,8 @@
   });
 
   populateManufacturers();
-  populateImpedances();
+  populateBandButtons();
+  updateLengthUnitUI();
   update();
 
 </script>
