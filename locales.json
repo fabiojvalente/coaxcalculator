@@ -16,7 +16,7 @@
     "all_manufacturers": "All manufacturers",
     "tip": "Tip: click a cable in the table to focus it on the graph. Other cables leave the graph until you click them to add. Switch to the Graph tab to compare, or use “Show all” to reset.",
     "chart_title": "Loss vs cable length",
-    "chart_blurb": "Loss in dB at the chosen frequency. The dashed line marks your chosen length. Click a line or legend entry to focus that cable; use the Cables tab to add more for comparison.",
+    "chart_blurb": "Solid lines: loss in dB (left axis). Dashed lines: power lost in watts (right axis), shown when cables are selected. The vertical dashed line marks your chosen length.",
     "chart_x": "Cable length ({unit})",
     "chart_y": "Loss (dB) @ {freq} MHz",
     "summary": "Calculating for {freq} MHz, {length} {unit}, {power} W input — {count} cable(s) shown. “—” means no attenuation data at this frequency.",
@@ -38,7 +38,12 @@
     "compare_hint": "Comparing {count} cable(s) on the graph. Click a dimmed row to add it, or click a selected cable again to remove it.",
     "add_to_graph": "Click to add this cable to the graph",
     "tab_cables": "Cables",
-    "tab_graph": "Graph"
+    "tab_graph": "Graph",
+    "chart_y_watts": "Power lost (W)",
+    "chart_lost_suffix": "lost",
+    "col_power_lost": "Power lost (W)",
+    "selected_table_title": "Selected cables",
+    "selected_empty": "Select cables in the Cables tab to see details here."
   },
   "pt": {
     "title": "Calculadora de Perdas em Cabo Coaxial",
@@ -57,7 +62,7 @@
     "all_manufacturers": "Todos os fabricantes",
     "tip": "Dica: clique num cabo na tabela para o focar no gráfico. Os outros saem do gráfico até os clicar para adicionar. Mude para o separador Gráfico para comparar, ou use “Mostrar todos” para repor.",
     "chart_title": "Perda vs comprimento do cabo",
-    "chart_blurb": "Perda em dB na frequência escolhida. A linha tracejada marca o comprimento. Clique numa linha ou na legenda para focar esse cabo; use o separador Cabos para adicionar mais à comparação.",
+    "chart_blurb": "Linhas contínuas: perda em dB (eixo esquerdo). Linhas tracejadas: potência perdida em watts (eixo direito), quando há cabos selecionados. A linha vertical marca o comprimento escolhido.",
     "chart_x": "Comprimento do cabo ({unit})",
     "chart_y": "Perda (dB) @ {freq} MHz",
     "summary": "A calcular para {freq} MHz, {length} {unit}, {power} W de entrada — {count} cabo(s) mostrados. “—” significa sem dados de atenuação nesta frequência.",
@@ -79,7 +84,12 @@
     "compare_hint": "A comparar {count} cabo(s) no gráfico. Clique numa linha esbatida para a adicionar, ou num cabo selecionado para o remover.",
     "add_to_graph": "Clique para adicionar este cabo ao gráfico",
     "tab_cables": "Cabos",
-    "tab_graph": "Gráfico"
+    "tab_graph": "Gráfico",
+    "chart_y_watts": "Potência perdida (W)",
+    "chart_lost_suffix": "perdidos",
+    "col_power_lost": "Potência perdida (W)",
+    "selected_table_title": "Cabos selecionados",
+    "selected_empty": "Selecione cabos no separador Cabos para ver os detalhes aqui."
   },
   "it": {
     "title": "Calcolatore di Perdite del Cavo Coassiale",
@@ -98,7 +108,7 @@
     "all_manufacturers": "Tutti i produttori",
     "tip": "Suggerimento: clicca un cavo nella tabella per metterlo a fuoco sul grafico. Gli altri escono dal grafico finché non li aggiungi. Vai alla scheda Grafico per confrontare, o usa “Mostra tutti” per ripristinare.",
     "chart_title": "Perdita vs lunghezza del cavo",
-    "chart_blurb": "Perdita in dB alla frequenza scelta. La linea tratteggiata segna la lunghezza. Clicca una linea o la legenda per focalizzare quel cavo; usa la scheda Cavi per aggiungerne altri al confronto.",
+    "chart_blurb": "Linee continue: perdita in dB (asse sinistro). Linee tratteggiate: potenza persa in watt (asse destro), quando ci sono cavi selezionati. La linea verticale segna la lunghezza scelta.",
     "chart_x": "Lunghezza del cavo ({unit})",
     "chart_y": "Perdita (dB) @ {freq} MHz",
     "summary": "Calcolo per {freq} MHz, {length} {unit}, {power} W in ingresso — {count} cavo/i mostrati. “—” indica assenza di dati di attenuazione a questa frequenza.",
@@ -120,7 +130,12 @@
     "compare_hint": "Confronto di {count} cavo/i sul grafico. Clicca una riga attenuata per aggiungerla, o un cavo selezionato per rimuoverlo.",
     "add_to_graph": "Clicca per aggiungere questo cavo al grafico",
     "tab_cables": "Cavi",
-    "tab_graph": "Grafico"
+    "tab_graph": "Grafico",
+    "chart_y_watts": "Potenza persa (W)",
+    "chart_lost_suffix": "persi",
+    "col_power_lost": "Potenza persa (W)",
+    "selected_table_title": "Cavi selezionati",
+    "selected_empty": "Seleziona i cavi nella scheda Cavi per vedere i dettagli qui."
   },
   "fr": {
     "title": "Calculateur de Pertes de Câble Coaxial",
@@ -139,7 +154,7 @@
     "all_manufacturers": "Tous les fabricants",
     "tip": "Astuce : cliquez un câble dans le tableau pour le mettre en avant sur le graphique. Les autres quittent le graphique jusqu’à ce que vous les ajoutiez. Passez à l’onglet Graphique pour comparer, ou utilisez « Tout afficher » pour réinitialiser.",
     "chart_title": "Perte vs longueur du câble",
-    "chart_blurb": "Perte en dB à la fréquence choisie. La ligne pointillée marque la longueur. Cliquez une courbe ou la légende pour cibler ce câble ; utilisez l’onglet Câbles pour en ajouter d’autres à la comparaison.",
+    "chart_blurb": "Lignes continues : perte en dB (axe gauche). Lignes pointillées : puissance perdue en watts (axe droit), lorsque des câbles sont sélectionnés. La ligne verticale marque la longueur choisie.",
     "chart_x": "Longueur du câble ({unit})",
     "chart_y": "Perte (dB) @ {freq} MHz",
     "summary": "Calcul pour {freq} MHz, {length} {unit}, {power} W en entrée — {count} câble(s) affiché(s). « — » signifie aucune donnée d’atténuation à cette fréquence.",
@@ -161,7 +176,12 @@
     "compare_hint": "Comparaison de {count} câble(s) sur le graphique. Cliquez une ligne atténuée pour l’ajouter, ou un câble sélectionné pour le retirer.",
     "add_to_graph": "Cliquez pour ajouter ce câble au graphique",
     "tab_cables": "Câbles",
-    "tab_graph": "Graphique"
+    "tab_graph": "Graphique",
+    "chart_y_watts": "Puissance perdue (W)",
+    "chart_lost_suffix": "perdus",
+    "col_power_lost": "Puissance perdue (W)",
+    "selected_table_title": "Câbles sélectionnés",
+    "selected_empty": "Sélectionnez des câbles dans l’onglet Câbles pour voir les détails ici."
   },
   "pl": {
     "title": "Kalkulator Strat Kabla Koncentrycznego",
@@ -180,7 +200,7 @@
     "all_manufacturers": "Wszyscy producenci",
     "tip": "Wskazówka: kliknij kabel w tabeli, aby wyróżnić go na wykresie. Pozostałe znikają z wykresu, dopóki ich nie dodasz. Przejdź do zakładki Wykres, aby porównać, lub użyj „Pokaż wszystkie”, aby zresetować.",
     "chart_title": "Strata vs długość kabla",
-    "chart_blurb": "Strata w dB przy wybranej częstotliwości. Przerywana linia oznacza długość. Kliknij linię lub legendę, aby wyróżnić kabel; użyj zakładki Kable, aby dodać kolejne do porównania.",
+    "chart_blurb": "Linie ciągłe: strata w dB (lewa oś). Linie przerywane: moc stracona w watach (prawa oś), gdy kable są wybrane. Pionowa linia oznacza wybraną długość.",
     "chart_x": "Długość kabla ({unit})",
     "chart_y": "Strata (dB) @ {freq} MHz",
     "summary": "Obliczenia dla {freq} MHz, {length} {unit}, {power} W na wejściu — pokazano {count} kabel/kabli. „—” oznacza brak danych o tłumieniu przy tej częstotliwości.",
@@ -202,7 +222,12 @@
     "compare_hint": "Porównanie {count} kabla/kabli na wykresie. Kliknij przyciemniony wiersz, aby dodać, lub wybrany kabel, aby usunąć.",
     "add_to_graph": "Kliknij, aby dodać ten kabel do wykresu",
     "tab_cables": "Kable",
-    "tab_graph": "Wykres"
+    "tab_graph": "Wykres",
+    "chart_y_watts": "Moc stracona (W)",
+    "chart_lost_suffix": "stracone",
+    "col_power_lost": "Moc stracona (W)",
+    "selected_table_title": "Wybrane kable",
+    "selected_empty": "Wybierz kable w zakładce Kable, aby zobaczyć szczegóły tutaj."
   },
   "de": {
     "title": "Koaxialkabel-Verlustrechner",
@@ -221,7 +246,7 @@
     "all_manufacturers": "Alle Hersteller",
     "tip": "Tipp: Klicke ein Kabel in der Tabelle an, um es im Diagramm zu fokussieren. Die anderen verschwinden vom Diagramm, bis du sie hinzufügst. Wechsle zum Tab Diagramm zum Vergleichen, oder setze mit „Alle anzeigen“ zurück.",
     "chart_title": "Verlust vs. Kabellänge",
-    "chart_blurb": "Verlust in dB bei der gewählten Frequenz. Die gestrichelte Linie markiert die Länge. Klicke eine Linie oder Legende, um das Kabel zu fokussieren; nutze den Tab Kabel, um weitere zum Vergleich hinzuzufügen.",
+    "chart_blurb": "Durchgezogene Linien: Verlust in dB (linke Achse). Gestrichelte Linien: verlorene Leistung in Watt (rechte Achse), wenn Kabel ausgewählt sind. Die senkrechte Linie markiert die gewählte Länge.",
     "chart_x": "Kabellänge ({unit})",
     "chart_y": "Verlust (dB) @ {freq} MHz",
     "summary": "Berechnung für {freq} MHz, {length} {unit}, {power} W Eingang — {count} Kabel angezeigt. „—“ bedeutet keine Dämpfungsdaten bei dieser Frequenz.",
@@ -243,6 +268,11 @@
     "compare_hint": "Vergleich von {count} Kabel(n) im Diagramm. Klicke eine abgeblendete Zeile zum Hinzufügen oder ein ausgewähltes Kabel zum Entfernen.",
     "add_to_graph": "Klicken, um dieses Kabel zum Diagramm hinzuzufügen",
     "tab_cables": "Kabel",
-    "tab_graph": "Diagramm"
+    "tab_graph": "Diagramm",
+    "chart_y_watts": "Verlustleistung (W)",
+    "chart_lost_suffix": "verloren",
+    "col_power_lost": "Verlustleistung (W)",
+    "selected_table_title": "Ausgewählte Kabel",
+    "selected_empty": "Wähle Kabel im Tab Kabel, um hier Details zu sehen."
   }
 }

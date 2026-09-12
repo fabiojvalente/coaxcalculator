@@ -11,12 +11,14 @@ serve:
 # Serve docs/ and regenerate whenever the template (or cable data) changes.
 serve-watch: generate-html
 	@echo "Serving http://localhost:8000 — watching index.html.j2, cables.yaml, locales.json (Ctrl-C to stop)"
-	@python3 -c "$$SERVE_WATCH_SCRIPT"
+	@exec python3 -c "$$SERVE_WATCH_SCRIPT"
 
 define SERVE_WATCH_SCRIPT
 import http.server
+import signal
 import socketserver
 import subprocess
+import sys
 import threading
 import time
 from pathlib import Path
@@ -31,23 +33,34 @@ class Handler(http.server.SimpleHTTPRequestHandler):
     def log_message(self, format, *args):
         print(f"[http] {args[0]}")
 
-httpd = socketserver.TCPServer(("", PORT), Handler)
-httpd.allow_reuse_address = True
+class ReusableTCPServer(socketserver.TCPServer):
+    allow_reuse_address = True
+
+stop = threading.Event()
+
+def _stop(*_):
+    stop.set()
+
+signal.signal(signal.SIGINT, _stop)
+signal.signal(signal.SIGTERM, _stop)
+
+httpd = ReusableTCPServer(("", PORT), Handler)
 threading.Thread(target=httpd.serve_forever, daemon=True).start()
 
 last = 0
 try:
-    while True:
+    while not stop.is_set():
         mtime = max(p.stat().st_mtime for p in paths)
         if mtime != last:
             last = mtime
             print("→ regenerating docs/index.html")
-            subprocess.call(["make", "generate-html"])
-        time.sleep(0.5)
-except KeyboardInterrupt:
-    print("\nStopping.")
+            # Call genhtml directly so nested make doesn't swallow Ctrl-C.
+            subprocess.call([sys.executable, "genhtml.py"])
+        stop.wait(0.5)
 finally:
+    print("\nStopping.")
     httpd.shutdown()
+    httpd.server_close()
 endef
 export SERVE_WATCH_SCRIPT
 

@@ -217,7 +217,7 @@ RFA-7/8"-Draka:
     impedance: 50
 UltraFlex-7:
   name: UltraFlex 7 (M&P)
-  manufacturer: M&P
+  manufacturer: Messi & Paolini
   type: RGAC7PLUS
   attenuation: { 1.8: 1.1, 3.5: 1.3, 7: 1.7, 10: 1.9, 14: 2.2, 21: 2.6, 28: 3, 50: 4, 100: 5.8, 144: 6.9, 200: 8.2, 400: 11.8, 430: 12.3, 800: 17.1, 1000: 19.3, 1296: 22.3, 2400: 32.3, 3000: 36.2, 4000: 42.6, 5000: 49.3, 6000: 55.3, 7000: 61.6, 8000: 68.4 }
   data_source: https://messi.it/dati/immagini/RGAC7PLUS-All1_EN.pdf
@@ -237,7 +237,7 @@ UltraFlex-7:
     impedance: 50
 HyperFlex-5:
   name: HyperFlex 5 (M&P)
-  manufacturer: M&P
+  manufacturer: Messi & Paolini
   type: HYPERFLEX5
   attenuation: { 1.8: 1.4, 3.5: 1.9, 7: 2.3, 10: 2.6, 14: 3.0, 21: 3.6, 28: 4.1, 50: 5.5, 100: 8, 144: 9.6, 200: 11.4, 400: 16.3, 430: 17, 800: 23.4, 1000: 26.4, 1296: 30.5, 2400: 42.5, 3000: 48.1, 4000: 56.9, 5000: 65.2, 6000: 72.9}
   data_source: https://messi.it/dati/layout/files/cartellaelementi/Hyperflex%205%20-%20Full%20Datasheet%20ENG.pdf
@@ -307,7 +307,7 @@ AVA5-50FX:
     impedance: 50
 HyperFlex-13:
   name: HyperFlex 13 (M&P)
-  manufacturer: M&P
+  manufacturer: Messi & Paolini
   type: HyperFlex 13
   attenuation: { 1.8: 0.5, 3.5: 0.6, 7: 0.8, 10: 1.0, 14: 1.1, 21: 1.3, 28: 1.5, 50: 2.0, 100: 2.8, 144: 3.6, 200: 4.2, 400: 6.1, 430: 6.4, 800: 9.0, 1000: 10.1, 1296: 11.7, 2400: 16.6, 3000: 18.9, 4000: 22.4, 5000: 25.6, 6000: 28.7, 7000: 31.7, 8000: 34.5, 9000: 37.5, 10000: 40.5, 12000: 46.0 }
   data_source: https://messi.it/dati/layout/files/CartellaElementi/Hyperflex%2013%20-%20Full%20Datasheet%20ENG.pdf
@@ -317,7 +317,7 @@ HyperFlex-13:
     impedance: 50
 HyperFlex-10:
   name: HyperFlex 10 (M&P)
-  manufacturer: M&P
+  manufacturer: Messi & Paolini
   type: HyperFlex 10
   attenuation: { 1.8: 0.8, 3.5: 1.0, 7: 1.1, 10: 1.3, 14: 1.5, 21: 1.8, 28: 2.0, 50: 2.7, 100: 3.9, 144: 4.7, 200: 5.6, 400: 8.3, 430: 8.6, 800: 11.9, 1000: 13.4, 1296: 15.4, 2400: 21.8, 3000: 24.6, 4000: 29.1, 5000: 33.1, 6000: 36.9, 7000: 40.7, 8000: 44.2, 9000: 47.5, 10000: 50.7 }
   data_source: https://messi.it/dati/layout/files/CartellaElementi/Hyperflex%2010%20-%20Full%20Datasheet%20ENG.pdf
@@ -327,7 +327,7 @@ HyperFlex-10:
     impedance: 50
 ExtraFlex-BURY-10:
   name: ExtraFlex Bury 10 (M&P)
-  manufacturer: M&P
+  manufacturer: Messi & Paolini
   type: ExtraFlex Bury 10
   attenuation: { 1.8: 0.8, 3.5: 1.0, 7: 1.1, 10: 1.3, 14: 1.5, 21: 1.8, 28: 2.0, 50: 2.7, 100: 3.9, 144: 4.7, 200: 5.6, 400: 8.3, 430: 8.6, 800: 11.9, 1000: 13.4, 1296: 15.4, 2400: 21.8, 3000: 24.6, 4000: 29.1, 5000: 33.1, 6000: 36.9, 7000: 40.7, 8000: 44.2, 9000: 47.5, 10000: 50.7 }
   data_source: https://messi.it/dati/layout/files/CartellaElementi/Extraflex%20Bury%20-%20Full%20Datasheet%20ENG.pdf
@@ -337,7 +337,7 @@ ExtraFlex-BURY-10:
     impedance: 50
 ExtraFlex-BURY-7:
   name: ExtraFlex Bury 7 (M&P)
-  manufacturer: M&P
+  manufacturer: Messi & Paolini
   type: ExtraFlex Bury 7
   attenuation: { 1.8: 1.1, 3.5: 1.3, 7: 1.7, 10: 1.9, 14: 2.2, 21: 2.6, 28: 3.0, 50: 4.0, 100: 5.8, 144: 6.9, 200: 8.2, 400: 11.8, 430: 12.3, 800: 17.1, 1000: 19.3, 1296: 22.3, 2400: 32.3, 3000: 36.2, 4000: 42.6, 5000: 49.3, 6000: 55.3, 7000: 61.6, 8000: 68.4 }
   data_source: https://messi.it/dati/layout/files/cartellaelementi/extraflex-bury-7-eng-min.pdf
@@ -417,7 +417,7 @@ RG-214:
     impedance: 50
 UltraFlex-10:
   name: UltraFlex 10 (M&P)
-  manufacturer: M&P
+  manufacturer: Messi & Paolini
   type: UltraFlex 10
   attenuation: { 1.8: 0.8, 3.5: 1.0, 7: 1.2, 10: 1.3, 14: 1.5, 21: 1.8, 28: 2.0, 50: 2.7, 100: 3.9, 144: 4.7, 200: 5.7, 400: 8.3, 430: 8.6, 800: 12.1, 1000: 13.8, 1296: 16.4, 2400: 23.7, 3000: 27.3, 4000: 32.9, 5000: 38.9, 6000: 44.5, 7000: 50.2, 8000: 55.8 }
   data_source: https://messi.it/dati/layout/files/CartellaElementi/ultraflex10-full-datasheet-eng.pdf
@@ -427,7 +427,7 @@ UltraFlex-10:
     impedance: 50
 ContestFlex-10:
   name: Contest Flex 10 (M&P)
-  manufacturer: M&P
+  manufacturer: Messi & Paolini
   type: Contest Flex 10
   attenuation: { 1.8: 0.5, 3.5: 0.8, 7: 1.1, 10: 1.3, 14: 1.5, 21: 1.8, 28: 2.1, 50: 3.0, 144: 5.4, 430: 10.5, 462: 11.0, 467: 11.1 }
   data_source: https://messi.it/dati/layout/files/CartellaElementi/CONTESTFLEX%2010.pdf

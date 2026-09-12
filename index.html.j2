@@ -93,12 +93,20 @@
   <div class="mb-4 flex border-b border-slate-200" role="tablist" aria-label="Views">
     <button type="button" id="tab_btn_cables" role="tab" aria-selected="true" aria-controls="tab_cables"
             onclick="setTab('cables')"
-            class="tab-btn px-4 py-2.5 text-sm font-medium border-b-2 -mb-px transition-colors border-blue-600 text-blue-700"
-            data-i18n="tab_cables">Cables</button>
+            class="tab-btn inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium border-b-2 -mb-px transition-colors border-blue-600 text-blue-700">
+      <svg class="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M3 6h18"/><path d="M3 12h18"/><path d="M3 18h18"/>
+      </svg>
+      <span data-i18n="tab_cables">Cables</span>
+    </button>
     <button type="button" id="tab_btn_graph" role="tab" aria-selected="false" aria-controls="tab_graph"
             onclick="setTab('graph')"
-            class="tab-btn px-4 py-2.5 text-sm font-medium border-b-2 -mb-px transition-colors border-transparent text-slate-500 hover:text-slate-800"
-            data-i18n="tab_graph">Graph</button>
+            class="tab-btn inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium border-b-2 -mb-px transition-colors border-transparent text-slate-500 hover:text-slate-800">
+      <svg class="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M3 3v18h18"/><path d="M7 14l4-4 4 3 5-6"/>
+      </svg>
+      <span data-i18n="tab_graph">Graph</span>
+    </button>
   </div>
 
   <!-- Tab: filters + table -->
@@ -156,7 +164,7 @@
 
   <!-- Tab: graph -->
   <div id="tab_graph" role="tabpanel" aria-labelledby="tab_btn_graph" class="hidden">
-    <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5">
+    <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5 mb-4">
       <div class="flex flex-wrap items-start justify-between gap-2 mb-1">
         <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500" data-i18n="chart_title">Loss vs cable length</h2>
         <button type="button" id="btn_show_all" onclick="clearSelection()"
@@ -164,12 +172,35 @@
                 data-i18n="show_all">Show all</button>
       </div>
       <p class="text-xs text-slate-400 mb-2" data-i18n="chart_blurb">
-        Loss in dB at the chosen frequency. The dashed line marks your chosen length. Click a line or legend entry to focus that cable; use the Cables tab to add more for comparison.
+        Solid lines: loss in dB. Dashed lines: power lost in watts (right axis). The vertical dashed line marks your chosen length.
       </p>
       <p id="compare_hint_graph" class="hidden text-sm text-slate-600 mb-3"></p>
       <div class="relative h-80 md:h-[28rem]">
         <canvas id="loss_chart"></canvas>
       </div>
+    </div>
+
+    <div id="selected_detail" class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden hidden">
+      <div class="px-5 py-3 border-b border-slate-100 flex items-center justify-between gap-2">
+        <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500" data-i18n="selected_table_title">Selected cables</h2>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead class="bg-slate-50 text-slate-600">
+            <tr>
+              <th class="px-4 py-3 text-left font-semibold" data-i18n="col_cable">Cable</th>
+              <th class="px-4 py-3 text-left font-semibold" data-i18n="col_manufacturer">Manufacturer</th>
+              <th class="px-4 py-3 text-right font-semibold" data-i18n="col_loss_db">Loss (dB)</th>
+              <th class="px-4 py-3 text-right font-semibold" data-i18n="col_s_units">S levels</th>
+              <th class="px-4 py-3 text-right font-semibold" data-i18n="col_loss_pct">Loss (%)</th>
+              <th class="px-4 py-3 text-right font-semibold" data-i18n="col_power_lost">Power lost (W)</th>
+              <th class="px-4 py-3 text-right font-semibold" data-i18n="col_power_out">Power out (W)</th>
+            </tr>
+          </thead>
+          <tbody id="selected_table_body" class="divide-y divide-slate-100"></tbody>
+        </table>
+      </div>
+      <p id="selected_empty" class="hidden text-center text-slate-400 py-6 text-sm" data-i18n="selected_empty">Select cables in the Cables tab to see details here.</p>
     </div>
   </div>
 
@@ -215,8 +246,8 @@
     var cablesBtn = document.getElementById("tab_btn_cables");
     var graphBtn = document.getElementById("tab_btn_graph");
 
-    var active = "tab-btn px-4 py-2.5 text-sm font-medium border-b-2 -mb-px transition-colors border-blue-600 text-blue-700";
-    var inactive = "tab-btn px-4 py-2.5 text-sm font-medium border-b-2 -mb-px transition-colors border-transparent text-slate-500 hover:text-slate-800";
+    var active = "tab-btn inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium border-b-2 -mb-px transition-colors border-blue-600 text-blue-700";
+    var inactive = "tab-btn inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium border-b-2 -mb-px transition-colors border-transparent text-slate-500 hover:text-slate-800";
 
     if (current_tab === "cables") {
       cablesPanel.classList.remove("hidden");
@@ -414,6 +445,12 @@
     return row;
   }
 
+  function wattsLostFromDb(db, pwr_in) {
+    if (!(pwr_in > 0) || db === null || db === undefined) return null;
+    var pwr_out = Math.pow(10, Math.log10(pwr_in) - db / 10);
+    return pwr_in - pwr_out;
+  }
+
   function rowsForChart(filteredRows, params) {
     // After the first pick → always plot every selected cable, even if search/filters hide them in the table.
     if (selected.length > 0) {
@@ -441,29 +478,57 @@
     var xmax = Math.max(xmin_span, Math.ceil(display_length * 1.2));
     var steps = 20;
     var meters_per_display = (unit === "ft") ? (1 / FT_PER_M) : 1;
+    var pwr_in = params.pwr_in;
 
     var chartRows = rowsForChart(rows, params);
     var comparing = selected.length > 0;
+    // Dual-axis watts lines only when comparing a few cables (avoids clutter)
+    var showWatts = comparing;
 
-    var datasets = chartRows.map(function(o) {
-        var points = [];
-        for (var i = 0; i <= steps; i++) {
-          var x = xmax * i / steps;
-          var meters = x * meters_per_display;
-          points.push({ x: x, y: o.att100m * meters / 100 });
+    var datasets = [];
+    chartRows.forEach(function(o) {
+      var dbPoints = [];
+      var wattPoints = [];
+      for (var i = 0; i <= steps; i++) {
+        var x = xmax * i / steps;
+        var meters = x * meters_per_display;
+        var db = o.att100m * meters / 100;
+        dbPoints.push({ x: x, y: db });
+        if (showWatts) {
+          wattPoints.push({ x: x, y: wattsLostFromDb(db, pwr_in) });
         }
-        return {
-          label: o.name,
+      }
+      datasets.push({
+        label: o.name,
+        cableKey: o.key,
+        metric: "db",
+        data: dbPoints,
+        yAxisID: "y",
+        borderColor: colorForKey(o.key),
+        backgroundColor: colorForKey(o.key),
+        borderWidth: comparing ? 3 : 1.5,
+        borderDash: [],
+        pointRadius: 0,
+        pointHitRadius: 8,
+        tension: 0
+      });
+      if (showWatts) {
+        datasets.push({
+          label: o.name + " (W)",
           cableKey: o.key,
-          data: points,
+          metric: "watts",
+          data: wattPoints,
+          yAxisID: "y1",
           borderColor: colorForKey(o.key),
           backgroundColor: colorForKey(o.key),
-          borderWidth: comparing ? 3 : 1.5,
+          borderWidth: 2,
+          borderDash: [6, 4],
           pointRadius: 0,
           pointHitRadius: 8,
           tension: 0
-        };
-      });
+        });
+      }
+    });
 
     var config_data = { datasets: datasets };
     var options = {
@@ -484,15 +549,33 @@
           title: { display: true, text: t("chart_x", { unit: unit }) }
         },
         y: {
+          type: 'linear',
+          position: 'left',
           min: 0,
           title: { display: true, text: t("chart_y", { freq: params.freq }) }
+        },
+        y1: {
+          type: 'linear',
+          position: 'right',
+          min: 0,
+          display: showWatts,
+          grid: { drawOnChartArea: false },
+          title: { display: showWatts, text: t("chart_y_watts") }
         }
       },
       plugins: {
         lengthLine: { length: display_length, unit: unit },
         legend: {
           position: 'bottom',
-          labels: { boxWidth: 12, boxHeight: 12, font: { size: 10 } },
+          labels: {
+            boxWidth: 12,
+            boxHeight: 12,
+            font: { size: 10 },
+            filter: function(item, chartData) {
+              var ds = chartData.datasets[item.datasetIndex];
+              return !ds || ds.metric !== "watts";
+            }
+          },
           onClick: function(e, legendItem, legend) {
             var ds = legend.chart.data.datasets[legendItem.datasetIndex];
             if (ds && ds.cableKey) onChartSelect(ds.cableKey);
@@ -501,7 +584,20 @@
         tooltip: {
           callbacks: {
             title: function(items) { return items.length ? items[0].parsed.x.toFixed(0) + " " + unit : ""; },
-            label: function(item) { return item.dataset.label + ": " + item.parsed.y.toFixed(2) + " dB"; }
+            label: function(item) {
+              var ds = item.dataset;
+              var name = ds.label.replace(/ \(W\)$/, "");
+              if (ds.metric === "watts") {
+                return name + ": " + item.parsed.y.toFixed(2) + " W " + t("chart_lost_suffix");
+              }
+              var db = item.parsed.y;
+              var lost = wattsLostFromDb(db, pwr_in);
+              var line = name + ": " + db.toFixed(2) + " dB";
+              if (lost !== null) {
+                line += " · " + lost.toFixed(2) + " W " + t("chart_lost_suffix");
+              }
+              return line;
+            }
           }
         }
       }
@@ -520,6 +616,48 @@
         plugins: [lengthLinePlugin]
       });
     }
+  }
+
+  function renderSelectedDetail(params) {
+    var panel = document.getElementById("selected_detail");
+    var tbody = document.getElementById("selected_table_body");
+    var empty = document.getElementById("selected_empty");
+    if (!panel || !tbody) return;
+
+    var hasSelection = selected.length > 0;
+    panel.classList.toggle("hidden", !hasSelection);
+    if (!hasSelection) {
+      tbody.innerHTML = "";
+      return;
+    }
+
+    var rows = selected.map(function(key) { return buildCableRow(key, params); }).filter(Boolean);
+    tbody.innerHTML = "";
+    empty.classList.toggle("hidden", rows.length > 0);
+
+    rows.forEach(function(o) {
+      var tr = document.createElement("tr");
+      tr.className = "bg-amber-50/50";
+      var lost = (o.pwr_out_num !== null && o.pwr_out_num !== undefined)
+        ? (params.pwr_in - o.pwr_out_num)
+        : null;
+      var cells = [
+        { html: '<span class="font-medium text-slate-900">' + o.name + '</span>', cls: "px-4 py-2.5 text-left" },
+        { html: o.manufacturer, cls: "px-4 py-2.5 text-left text-slate-500" },
+        { html: o.att, cls: "px-4 py-2.5 text-right tabular-nums font-medium" },
+        { html: o.s_units, cls: "px-4 py-2.5 text-right tabular-nums" },
+        { html: o.loss_percentage, cls: "px-4 py-2.5 text-right tabular-nums" },
+        { html: lost !== null ? (Math.round(lost * 100) / 100).toFixed(2) : "—", cls: "px-4 py-2.5 text-right tabular-nums" },
+        { html: o.pwr_out, cls: "px-4 py-2.5 text-right tabular-nums" }
+      ];
+      cells.forEach(function(c) {
+        var td = document.createElement("td");
+        td.className = c.cls;
+        td.innerHTML = c.html;
+        tr.appendChild(td);
+      });
+      tbody.appendChild(tr);
+    });
   }
 
   function populateManufacturers() {
@@ -819,8 +957,6 @@
     var sorted_rows = sortRows(rows);
     last_sorted_rows = sorted_rows;
 
-    renderChart(sorted_rows, params);
-
     // summary line
     document.getElementById('summary').textContent = t("summary", {
       freq: params.freq,
@@ -894,6 +1030,13 @@
     });
 
     updateHeaderIndicators();
+    renderSelectedDetail(params);
+
+    try {
+      renderChart(sorted_rows, params);
+    } catch (err) {
+      console.error("Chart render failed:", err);
+    }
 
   }
 
