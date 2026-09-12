@@ -6,6 +6,22 @@
 <title data-i18n="title">Coaxial Cable Loss Calculator</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<style>
+  #floating_tip {
+    position: fixed;
+    z-index: 60;
+    max-width: 18rem;
+    padding: 0.6rem 0.75rem;
+    border-radius: 0.5rem;
+    background: #0f172a;
+    color: #f8fafc;
+    font-size: 0.75rem;
+    line-height: 1.35;
+    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.25);
+    pointer-events: none;
+  }
+  #floating_tip[hidden] { display: none; }
+</style>
 </head>
 
 <body class="bg-slate-100 min-h-screen text-slate-800">
@@ -25,27 +41,27 @@
       <h1 class="text-3xl font-bold tracking-tight text-slate-900" data-i18n="title">Coaxial Cable Loss Calculator</h1>
       <p class="text-slate-500 mt-1" data-i18n="tagline">Compare attenuation and power loss across coax cables.</p>
     </div>
-    <label class="block sm:text-right shrink-0">
+    <div class="shrink-0 sm:text-right">
       <span class="text-sm font-medium text-slate-700" data-i18n="language">Language</span>
       <select id="lang" onchange="setLanguage(this.value)"
               class="mt-1 block w-full sm:w-auto rounded-lg border border-slate-300 px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-        <option value="en">English</option>
-        <option value="pt">Português</option>
-        <option value="it">Italiano</option>
-        <option value="fr">Français</option>
-        <option value="pl">Polski</option>
-        <option value="de">Deutsch</option>
+        <option value="en">🇬🇧 English</option>
+        <option value="pt">🇵🇹 Português</option>
+        <option value="it">🇮🇹 Italiano</option>
+        <option value="fr">🇫🇷 Français</option>
+        <option value="pl">🇵🇱 Polski</option>
+        <option value="de">🇩🇪 Deutsch</option>
       </select>
-    </label>
+    </div>
   </header>
 
-  <!-- Parameters card -->
+  <!-- Parameters card (shared across tabs) -->
   <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5 mb-4">
     <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500 mb-3" data-i18n="parameters">Parameters</h2>
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
       <label class="block sm:col-span-1">
         <span class="text-sm font-medium text-slate-700" data-i18n="freq">Frequency (MHz)</span>
-        <input type="number" id="freq" min="0.1" max="10000" step="0.001" value="145" oninput="updateBandButtons(); update();"
+        <input type="number" id="freq" min="0.1" max="10000" step="0.001" value="7.15" oninput="updateBandButtons(); update();"
                class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
       </label>
       <div class="block">
@@ -73,71 +89,88 @@
     </div>
   </div>
 
-  <!-- Filters card -->
-  <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5 mb-4">
-    <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500 mb-3" data-i18n="filters">Filters</h2>
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-      <label class="block">
-        <span class="text-sm font-medium text-slate-700" data-i18n="search">Search</span>
-        <input type="search" id="search" data-i18n-placeholder="search_placeholder" placeholder="e.g. RG-213, H155, Ecoflex…" oninput="update();"
-               class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-      </label>
-      <label class="block">
-        <span class="text-sm font-medium text-slate-700" data-i18n="manufacturer">Manufacturer</span>
-        <select id="manufacturer" onchange="update();"
-                class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-        </select>
-      </label>
-    </div>
-    <p class="text-xs text-slate-400 mt-3" data-i18n="tip">Tip: click a row to pin-highlight it for comparison. Click a column header to sort.</p>
+  <!-- Tabs -->
+  <div class="mb-4 flex border-b border-slate-200" role="tablist" aria-label="Views">
+    <button type="button" id="tab_btn_cables" role="tab" aria-selected="true" aria-controls="tab_cables"
+            onclick="setTab('cables')"
+            class="tab-btn px-4 py-2.5 text-sm font-medium border-b-2 -mb-px transition-colors border-blue-600 text-blue-700"
+            data-i18n="tab_cables">Cables</button>
+    <button type="button" id="tab_btn_graph" role="tab" aria-selected="false" aria-controls="tab_graph"
+            onclick="setTab('graph')"
+            class="tab-btn px-4 py-2.5 text-sm font-medium border-b-2 -mb-px transition-colors border-transparent text-slate-500 hover:text-slate-800"
+            data-i18n="tab_graph">Graph</button>
   </div>
 
-  <!-- Loss vs length chart -->
-  <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5 mb-4">
-    <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500 mb-1" data-i18n="chart_title">Loss vs cable length</h2>
-    <p class="text-xs text-slate-400 mb-3" data-i18n="chart_blurb">
-      Loss in dB at the chosen frequency, for each filtered cable. The dashed line marks your chosen length.
-      Pinned cables are drawn thicker.
-    </p>
-    <div class="relative h-80 md:h-96">
-      <canvas id="loss_chart"></canvas>
+  <!-- Tab: filters + table -->
+  <div id="tab_cables" role="tabpanel" aria-labelledby="tab_btn_cables">
+    <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5 mb-4">
+      <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500 mb-3" data-i18n="filters">Filters</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <label class="block">
+          <span class="text-sm font-medium text-slate-700" data-i18n="search">Search</span>
+          <input type="search" id="search" data-i18n-placeholder="search_placeholder" placeholder="e.g. RG-213, H155, Ecoflex…" oninput="update();"
+                 class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+        </label>
+        <label class="block">
+          <span class="text-sm font-medium text-slate-700" data-i18n="manufacturer">Manufacturer</span>
+          <select id="manufacturer" onchange="update();"
+                  class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+          </select>
+        </label>
+      </div>
+      <p class="text-xs text-slate-400 mt-3" data-i18n="tip">Tip: click a cable in the table to focus it on the graph. Other cables leave the graph until you click them to add. Switch to the Graph tab to compare, or use “Show all” to reset.</p>
+    </div>
+
+    <p id="summary" class="text-sm text-slate-500 mb-2"></p>
+    <p id="compare_hint" class="hidden text-sm text-slate-600 mb-2"></p>
+
+    <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead class="bg-slate-50 text-slate-600 sticky top-0">
+            <tr id="table_header">
+              <th data-sort="name" data-i18n="col_cable" class="px-4 py-3 text-left font-semibold cursor-pointer select-none hover:text-slate-900">Cable</th>
+              <th data-sort="manufacturer" data-i18n="col_manufacturer" class="px-4 py-3 text-left font-semibold cursor-pointer select-none hover:text-slate-900">Manufacturer</th>
+              <th data-sort="att" data-i18n="col_loss_db" class="px-4 py-3 text-right font-semibold cursor-pointer select-none hover:text-slate-900">Loss (dB)</th>
+              <th data-sort="s_units"
+                  class="px-4 py-3 text-right font-semibold cursor-pointer select-none hover:text-slate-900">
+                <span class="inline-flex items-center justify-end gap-1.5">
+                  <span data-i18n="col_s_units" class="s-col-label">S levels</span>
+                  <button type="button" id="s_levels_help" class="inline-flex h-4 w-4 items-center justify-center rounded-full border border-slate-400 text-[10px] font-bold leading-none text-slate-500 hover:border-slate-700 hover:text-slate-800"
+                          aria-label="S levels help">?</button>
+                </span>
+              </th>
+              <th data-sort="loss_percentage" data-i18n="col_loss_pct" class="px-4 py-3 text-right font-semibold cursor-pointer select-none hover:text-slate-900">Loss (%)</th>
+              <th data-sort="pwr_out" data-i18n="col_power_out" class="px-4 py-3 text-right font-semibold cursor-pointer select-none hover:text-slate-900">Power out (W)</th>
+              <th data-sort="diameter" data-i18n="col_diameter" class="px-4 py-3 text-right font-semibold cursor-pointer select-none hover:text-slate-900 hidden md:table-cell">Ø (mm)</th>
+              <th data-sort="vf" data-i18n="col_vf" class="px-4 py-3 text-right font-semibold cursor-pointer select-none hover:text-slate-900 hidden md:table-cell">VF</th>
+              <th data-i18n="col_datasheet" class="px-4 py-3 text-center font-semibold">Datasheet</th>
+            </tr>
+          </thead>
+          <tbody id="table_body" class="divide-y divide-slate-100"></tbody>
+        </table>
+      </div>
+      <p id="no_results" class="hidden text-center text-slate-400 py-8" data-i18n="no_results">No cables match the current filters.</p>
     </div>
   </div>
 
-  <!-- Summary line -->
-  <p id="summary" class="text-sm text-slate-500 mb-2"></p>
-
-  <!-- S-unit guidance -->
-  <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5 mb-4">
-    <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500 mb-2" data-i18n="s_title">What does this mean for S-levels?</h2>
-    <div class="text-sm text-slate-600 space-y-2">
-      <p data-i18n="s_p1">Amateur receivers often show signal strength in S-units. As a rule of thumb, 1 S-unit ≈ 6 dB.</p>
-      <p data-i18n="s_p2">Feedline loss over your chosen length weakens the signal by that many S-units at the far end — on both transmit and receive.</p>
-      <p id="s_example" class="text-slate-500"></p>
+  <!-- Tab: graph -->
+  <div id="tab_graph" role="tabpanel" aria-labelledby="tab_btn_graph" class="hidden">
+    <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5">
+      <div class="flex flex-wrap items-start justify-between gap-2 mb-1">
+        <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500" data-i18n="chart_title">Loss vs cable length</h2>
+        <button type="button" id="btn_show_all" onclick="clearSelection()"
+                class="hidden rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-50"
+                data-i18n="show_all">Show all</button>
+      </div>
+      <p class="text-xs text-slate-400 mb-2" data-i18n="chart_blurb">
+        Loss in dB at the chosen frequency. The dashed line marks your chosen length. Click a line or legend entry to focus that cable; use the Cables tab to add more for comparison.
+      </p>
+      <p id="compare_hint_graph" class="hidden text-sm text-slate-600 mb-3"></p>
+      <div class="relative h-80 md:h-[28rem]">
+        <canvas id="loss_chart"></canvas>
+      </div>
     </div>
-  </div>
-
-  <!-- Results table -->
-  <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
-    <div class="overflow-x-auto">
-      <table class="w-full text-sm">
-        <thead class="bg-slate-50 text-slate-600 sticky top-0">
-          <tr id="table_header">
-            <th data-sort="name" data-i18n="col_cable" class="px-4 py-3 text-left font-semibold cursor-pointer select-none hover:text-slate-900">Cable</th>
-            <th data-sort="manufacturer" data-i18n="col_manufacturer" class="px-4 py-3 text-left font-semibold cursor-pointer select-none hover:text-slate-900">Manufacturer</th>
-            <th data-sort="att" data-i18n="col_loss_db" class="px-4 py-3 text-right font-semibold cursor-pointer select-none hover:text-slate-900">Loss (dB)</th>
-            <th data-sort="s_units" data-i18n="col_s_units" data-i18n-title="col_s_units_title" title="Approximate S-units lost (1 S-unit ≈ 6 dB)" class="px-4 py-3 text-right font-semibold cursor-pointer select-none hover:text-slate-900">≈ S</th>
-            <th data-sort="loss_percentage" data-i18n="col_loss_pct" class="px-4 py-3 text-right font-semibold cursor-pointer select-none hover:text-slate-900">Loss (%)</th>
-            <th data-sort="pwr_out" data-i18n="col_power_out" class="px-4 py-3 text-right font-semibold cursor-pointer select-none hover:text-slate-900">Power out (W)</th>
-            <th data-sort="diameter" data-i18n="col_diameter" class="px-4 py-3 text-right font-semibold cursor-pointer select-none hover:text-slate-900 hidden md:table-cell">Ø (mm)</th>
-            <th data-sort="vf" data-i18n="col_vf" class="px-4 py-3 text-right font-semibold cursor-pointer select-none hover:text-slate-900 hidden md:table-cell">VF</th>
-            <th data-i18n="col_datasheet" class="px-4 py-3 text-center font-semibold">Datasheet</th>
-          </tr>
-        </thead>
-        <tbody id="table_body" class="divide-y divide-slate-100"></tbody>
-      </table>
-    </div>
-    <p id="no_results" class="hidden text-center text-slate-400 py-8" data-i18n="no_results">No cables match the current filters.</p>
   </div>
 
   <!-- Footer / credits -->
@@ -157,6 +190,8 @@
 
 </div>
 
+<div id="floating_tip" hidden role="tooltip"></div>
+
 <script>
   var cables = JSON.parse(document.getElementById('cable_data').innerHTML);
   var locales = JSON.parse(document.getElementById('i18n_data').innerHTML);
@@ -170,15 +205,62 @@
   var length_unit = "m";   // "m" or "ft"
   var FT_PER_M = 3.280839895;
   var DB_PER_S_UNIT = 6;
+  var last_sorted_rows = [];
+  var current_tab = "cables";
+
+  function setTab(tab) {
+    current_tab = (tab === "graph") ? "graph" : "cables";
+    var cablesPanel = document.getElementById("tab_cables");
+    var graphPanel = document.getElementById("tab_graph");
+    var cablesBtn = document.getElementById("tab_btn_cables");
+    var graphBtn = document.getElementById("tab_btn_graph");
+
+    var active = "tab-btn px-4 py-2.5 text-sm font-medium border-b-2 -mb-px transition-colors border-blue-600 text-blue-700";
+    var inactive = "tab-btn px-4 py-2.5 text-sm font-medium border-b-2 -mb-px transition-colors border-transparent text-slate-500 hover:text-slate-800";
+
+    if (current_tab === "cables") {
+      cablesPanel.classList.remove("hidden");
+      graphPanel.classList.add("hidden");
+      cablesBtn.className = active;
+      graphBtn.className = inactive;
+      cablesBtn.setAttribute("aria-selected", "true");
+      graphBtn.setAttribute("aria-selected", "false");
+    } else {
+      cablesPanel.classList.add("hidden");
+      graphPanel.classList.remove("hidden");
+      cablesBtn.className = inactive;
+      graphBtn.className = active;
+      cablesBtn.setAttribute("aria-selected", "false");
+      graphBtn.setAttribute("aria-selected", "true");
+      // Chart was sized while hidden — force a correct layout pass
+      if (loss_chart) {
+        requestAnimationFrame(function() {
+          loss_chart.resize();
+          loss_chart.update("none");
+        });
+      }
+    }
+  }
 
   function detectLanguage() {
     try {
       var saved = localStorage.getItem(LANG_KEY);
       if (saved && SUPPORTED_LANGS.includes(saved)) return saved;
     } catch (e) {}
-    var nav = (navigator.language || navigator.userLanguage || "en").toLowerCase();
-    var prefix = nav.split("-")[0];
-    if (SUPPORTED_LANGS.includes(prefix)) return prefix;
+
+    var candidates = [];
+    if (navigator.languages && navigator.languages.length) {
+      for (var i = 0; i < navigator.languages.length; i++) {
+        candidates.push(navigator.languages[i]);
+      }
+    } else if (navigator.language || navigator.userLanguage) {
+      candidates.push(navigator.language || navigator.userLanguage);
+    }
+
+    for (var j = 0; j < candidates.length; j++) {
+      var prefix = String(candidates[j]).toLowerCase().split("-")[0];
+      if (SUPPORTED_LANGS.includes(prefix)) return prefix;
+    }
     return "en";
   }
 
@@ -305,6 +387,50 @@
     }
   };
 
+  function buildCableRow(key, params) {
+    var cable = cables[key];
+    if (!cable) return null;
+    var info = cable.additional_info || {};
+    var cur = {
+      key: key,
+      name: cable.name,
+      manufacturer: cable.manufacturer || "—",
+      att100m: get_att_for_freq(cable["attenuation"], params.freq),
+      link: cable.data_source,
+      diameter: (info.ext_diameter_mm !== undefined) ? info.ext_diameter_mm : null,
+      vf: (info.velocity_factor !== undefined) ? info.velocity_factor : null
+    };
+    var row = Object.assign({}, cur, generateOutputStrings(cur, params));
+    row.sort_values = {
+      name: row.name,
+      manufacturer: cable.manufacturer || null,
+      att: row.att_num,
+      s_units: row.s_units_num,
+      loss_percentage: row.loss_percentage_num,
+      pwr_out: row.pwr_out_num,
+      diameter: row.diameter,
+      vf: row.vf
+    };
+    return row;
+  }
+
+  function rowsForChart(filteredRows, params) {
+    // After the first pick → always plot every selected cable, even if search/filters hide them in the table.
+    if (selected.length > 0) {
+      return selected.map(function(key) {
+        return buildCableRow(key, params);
+      }).filter(function(o) {
+        return o && o.att100m < 10000;
+      });
+    }
+    return filteredRows.filter(function(o) { return o.att100m < 10000; });
+  }
+
+  function onChartSelect(cableKey) {
+    if (!cableKey) return;
+    toggleSelect(cableKey);
+  }
+
   function renderChart(rows, params) {
     if (typeof Chart === 'undefined') return;   // CDN unavailable
 
@@ -316,24 +442,25 @@
     var steps = 20;
     var meters_per_display = (unit === "ft") ? (1 / FT_PER_M) : 1;
 
-    var datasets = rows
-      .filter(function(o) { return o.att100m < 10000; })
-      .map(function(o) {
+    var chartRows = rowsForChart(rows, params);
+    var comparing = selected.length > 0;
+
+    var datasets = chartRows.map(function(o) {
         var points = [];
         for (var i = 0; i <= steps; i++) {
           var x = xmax * i / steps;
           var meters = x * meters_per_display;
           points.push({ x: x, y: o.att100m * meters / 100 });
         }
-        var pinned = selected.includes(o.key);
         return {
           label: o.name,
+          cableKey: o.key,
           data: points,
           borderColor: colorForKey(o.key),
           backgroundColor: colorForKey(o.key),
-          borderWidth: pinned ? 4 : 1.5,
+          borderWidth: comparing ? 3 : 1.5,
           pointRadius: 0,
-          pointHitRadius: 6,
+          pointHitRadius: 8,
           tension: 0
         };
       });
@@ -344,6 +471,11 @@
       maintainAspectRatio: false,
       animation: false,
       interaction: { mode: 'nearest', intersect: false },
+      onClick: function(evt, elements) {
+        if (!elements.length) return;
+        var ds = this.data.datasets[elements[0].datasetIndex];
+        if (ds && ds.cableKey) onChartSelect(ds.cableKey);
+      },
       scales: {
         x: {
           type: 'linear',
@@ -360,7 +492,11 @@
         lengthLine: { length: display_length, unit: unit },
         legend: {
           position: 'bottom',
-          labels: { boxWidth: 12, boxHeight: 12, font: { size: 10 } }
+          labels: { boxWidth: 12, boxHeight: 12, font: { size: 10 } },
+          onClick: function(e, legendItem, legend) {
+            var ds = legend.chart.data.datasets[legendItem.datasetIndex];
+            if (ds && ds.cableKey) onChartSelect(ds.cableKey);
+          }
         },
         tooltip: {
           callbacks: {
@@ -556,6 +692,11 @@
     update();
   }
 
+  function clearSelection() {
+    selected = [];
+    update();
+  }
+
   function setSort(column) {
     if(sort_state.column === column) {
       sort_state.ascending = !sort_state.ascending;
@@ -570,14 +711,72 @@
   function updateHeaderIndicators() {
     document.querySelectorAll('#table_header th[data-sort]').forEach(th => {
       var key = th.getAttribute("data-i18n");
-      var base = key ? t(key) : th.textContent.replace(/[\u25B2\u25BC]\s*$/, '').trim();
-      if(th.dataset.sort === sort_state.column) {
-        th.textContent = base + (sort_state.ascending ? " \u25B2" : " \u25BC");
+      var labelEl = th.querySelector(".s-col-label");
+      var base;
+      if (labelEl) {
+        base = t("col_s_units");
+      } else if (key) {
+        base = t(key);
+      } else {
+        base = th.textContent.replace(/[\u25B2\u25BC]\s*$/, '').trim();
       }
-      else {
-        th.textContent = base;
+      var arrow = (th.dataset.sort === sort_state.column)
+        ? (sort_state.ascending ? " \u25B2" : " \u25BC")
+        : "";
+      if (labelEl) {
+        labelEl.textContent = base + arrow;
+      } else {
+        th.textContent = base + arrow;
       }
     });
+  }
+
+  function positionFloatingTip(anchor) {
+    var tip = document.getElementById("floating_tip");
+    if (!tip || tip.hidden) return;
+    var rect = anchor.getBoundingClientRect();
+    var tipRect = tip.getBoundingClientRect();
+    var left = Math.min(
+      Math.max(8, rect.right - tipRect.width),
+      window.innerWidth - tipRect.width - 8
+    );
+    var top = rect.bottom + 8;
+    if (top + tipRect.height > window.innerHeight - 8) {
+      top = Math.max(8, rect.top - tipRect.height - 8);
+    }
+    tip.style.left = left + "px";
+    tip.style.top = top + "px";
+  }
+
+  function showSLevelsTip(anchor) {
+    var tip = document.getElementById("floating_tip");
+    tip.textContent = t("col_s_units_title");
+    tip.hidden = false;
+    positionFloatingTip(anchor);
+  }
+
+  function hideSLevelsTip() {
+    document.getElementById("floating_tip").hidden = true;
+  }
+
+  function bindSLevelsHelp() {
+    var btn = document.getElementById("s_levels_help");
+    if (!btn || btn.dataset.bound) return;
+    btn.dataset.bound = "1";
+    btn.addEventListener("mouseenter", function() { showSLevelsTip(btn); });
+    btn.addEventListener("mouseleave", hideSLevelsTip);
+    btn.addEventListener("focus", function() { showSLevelsTip(btn); });
+    btn.addEventListener("blur", hideSLevelsTip);
+    btn.addEventListener("click", function(e) {
+      e.stopPropagation(); // don't trigger column sort
+      var tip = document.getElementById("floating_tip");
+      if (tip.hidden) showSLevelsTip(btn);
+      else hideSLevelsTip();
+    });
+    window.addEventListener("scroll", function() {
+      var tip = document.getElementById("floating_tip");
+      if (!tip.hidden) positionFloatingTip(btn);
+    }, true);
   }
 
   function update() {
@@ -600,7 +799,6 @@
     // calculate attenuation for a given freq for every cable (/100 m)
     for (var key in cables) {
       var cable = cables[key];
-      var info = cable.additional_info || {};
 
       // skip cables from other manufacturers, if a filter is set
       if(params.manufacturer && cable.manufacturer != params.manufacturer) {
@@ -615,34 +813,11 @@
         }
       }
 
-      cur = {
-        key: key,
-        name: cable.name,
-        manufacturer: cable.manufacturer || "—",
-        att100m: get_att_for_freq(cable["attenuation"], params.freq),
-        link: cable.data_source,
-        diameter: (info.ext_diameter_mm !== undefined) ? info.ext_diameter_mm : null,
-        vf: (info.velocity_factor !== undefined) ? info.velocity_factor : null
-      }
-
-      // add extra params (dB/power loss per specified cable length)
-      var row = Object.assign({}, cur, generateOutputStrings(cur, params));
-
-      row.sort_values = {
-        name: row.name,
-        manufacturer: cable.manufacturer || null,
-        att: row.att_num,
-        s_units: row.s_units_num,
-        loss_percentage: row.loss_percentage_num,
-        pwr_out: row.pwr_out_num,
-        diameter: row.diameter,
-        vf: row.vf
-      };
-
-      rows.push(row);
+      rows.push(buildCableRow(key, params));
     }
 
     var sorted_rows = sortRows(rows);
+    last_sorted_rows = sorted_rows;
 
     renderChart(sorted_rows, params);
 
@@ -655,10 +830,16 @@
       count: sorted_rows.length
     });
 
-    document.getElementById('s_example').textContent = t("s_example", {
-      freq: params.freq,
-      length: params.length_display,
-      unit: params.length_unit
+    var comparing = selected.length > 0;
+    var showAllBtn = document.getElementById("btn_show_all");
+    if (showAllBtn) showAllBtn.classList.toggle("hidden", !comparing);
+
+    var hintText = comparing ? t("compare_hint", { count: selected.length }) : "";
+    ["compare_hint", "compare_hint_graph"].forEach(function(id) {
+      var hint = document.getElementById(id);
+      if (!hint) return;
+      hint.classList.toggle("hidden", !comparing);
+      if (comparing) hint.textContent = hintText;
     });
 
     var tbody = document.getElementById('table_body');
@@ -671,10 +852,15 @@
     sorted_rows.forEach(o => {
       var tr = document.createElement('tr');
       tr.id = o.key;
-      tr.className = "cursor-pointer transition-colors " +
-        (selected.includes(o.key)
-          ? "bg-amber-100 hover:bg-amber-200"
-          : "hover:bg-slate-50");
+      var isOnGraph = selected.includes(o.key);
+      if (isOnGraph) {
+        tr.className = "cursor-pointer transition-colors bg-amber-100 hover:bg-amber-200";
+      } else if (comparing) {
+        tr.className = "cursor-pointer transition-colors opacity-40 hover:opacity-70 hover:bg-slate-50";
+        tr.title = t("add_to_graph");
+      } else {
+        tr.className = "cursor-pointer transition-colors hover:bg-slate-50";
+      }
       tr.onclick = function(event) {
         // don't toggle selection when clicking the datasheet link
         if(event.target.tagName === 'A') return;
@@ -720,6 +906,7 @@
   populateManufacturers();
   populateBandButtons();
   updateLengthUnitUI();
+  bindSLevelsHelp();
   applyI18n();
 
 </script>
