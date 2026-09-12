@@ -10,7 +10,7 @@ serve:
 
 # Serve docs/ and regenerate whenever the template (or cable data) changes.
 serve-watch: generate-html
-	@echo "Serving http://localhost:8000 — watching index.html.j2 and cables.yaml (Ctrl-C to stop)"
+	@echo "Serving http://localhost:8000 — watching index.html.j2, cables.yaml, locales.json (Ctrl-C to stop)"
 	@python3 -c "$$SERVE_WATCH_SCRIPT"
 
 define SERVE_WATCH_SCRIPT
@@ -22,7 +22,7 @@ import time
 from pathlib import Path
 
 PORT = 8000
-paths = [Path("index.html.j2"), Path("cables.yaml")]
+paths = [Path("index.html.j2"), Path("cables.yaml"), Path("locales.json")]
 
 class Handler(http.server.SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):

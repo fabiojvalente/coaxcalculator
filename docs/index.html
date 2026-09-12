@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Coaxial Cable Loss Calculator</title>
+<title data-i18n="title">Coaxial Cable Loss Calculator</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 </head>
@@ -13,28 +13,45 @@
 <script type="application/json" id="cable_data">
 {"h155-belden": {"name": "H155 (Belden)", "manufacturer": "Belden", "type": "H155", "attenuation": {"5": 2.5, "50": 6.9, "100": 9.1, "230": 13.4, "400": 18.0, "800": 26.1, "862": 27.3, "1000": 29.6, "1350": 34.9, "1750": 40.3, "2150": 46.0, "2400": 49.1, "3000": 56.3, "4200": 69.1, "4800": 75.1, "5400": 80.8, "6000": 86.5}, "data_source": "https://www.tme.eu/Document/18ee3e29381bee0e348180bedff1050b/H155BK_EN.PDF", "additional_info": {"ext_diameter_mm": 5.4, "velocity_factor": 0.8, "impedance": 50}}, "rf5-satec": {"name": "RF-5 (Satec)", "manufacturer": "Satec", "type": "RF-5", "attenuation": {"1": 0.9, "10": 2.8, "100": 8.9, "200": 12.7, "800": 25.8, "1000": 29.0, "1600": 39.8, "2000": 41.6, "3000": 51.6, "5200": 69.3, "5800": 73.8}, "data_source": "https://satec.com.pl/wp-content/uploads/2017/10/RF-5.pdf", "additional_info": {"ext_diameter_mm": 5.4, "velocity_factor": 0.78, "impedance": 50}}, "rf7-satec": {"name": "RF-7 (Satec)", "manufacturer": "Satec", "type": "RF-7", "attenuation": {"10": 2.0, "100": 6.4, "200": 9.1, "500": 14.1, "800": 20.9, "1000": 25.9, "1500": 31.0, "2000": 35.0, "2500": 39.0}, "data_source": "https://satec.com.pl/wp-content/uploads/2017/10/RF-7.pdf", "additional_info": {"ext_diameter_mm": 7.3, "velocity_factor": 0.84, "impedance": 50}}, "rf10f-satec": {"name": "RF-10F (Satec)", "manufacturer": "Satec", "type": "RF-10", "attenuation": {"10": 1.2, "100": 3.7, "500": 8.7, "800": 11.3, "1000": 12.8, "2000": 18.9, "2500": 21.4, "5400": 34.2, "5600": 34.8, "5800": 35.4}, "data_source": "https://satec.com.pl/wp-content/uploads/2017/10/RF-10-F.pdf", "additional_info": {"ext_diameter_mm": 10.3, "velocity_factor": 0.84, "impedance": 50}}, "rg316u-satec": {"name": "RG-316U (Satec)", "manufacturer": "Satec", "type": "RG316", "attenuation": {"100": 37.0, "200": 47.0, "400": 55.0, "1000": 102.0}, "data_source": "https://satec.com.pl/wp-content/uploads/2020/01/RG-316.pdf", "additional_info": {"ext_diameter_mm": 2.49, "velocity_factor": 0.7, "impedance": 50}}, "rg174-satec": {"name": "RG-174 (Satec)", "manufacturer": "Satec", "type": "RG174", "attenuation": {"10": 9.5, "100": 31.0, "200": 51.0, "400": 74.0, "1000": 120.0}, "data_source": "https://satec.com.pl/wp-content/uploads/2020/01/RG-174-MIL-C-17F.pdf", "additional_info": {"ext_diameter_mm": 2.7, "velocity_factor": 0.66, "impedance": 50}}, "rg174premium-satec": {"name": "RG-174 Premium (Satec)", "manufacturer": "Satec", "type": "RG174", "attenuation": {"10": 8.9, "50": 18.2, "100": 24.1, "200": 39.9, "400": 54.7, "800": 68.8, "1000": 93.1}, "data_source": "https://satec.com.pl/wp-content/uploads/2017/10/RG-174-Premium.pdf", "additional_info": {"ext_diameter_mm": 2.9, "velocity_factor": 0.66, "impedance": 50}}, "rg58premium-satec": {"name": "RG-58 Premium (Satec)", "manufacturer": "Satec", "type": "RG58", "attenuation": {"10": 4.2, "50": 10.5, "100": 15.1, "230": 22.4, "470": 35.6, "860": 49.4, "1000": 54.0, "1350": 65.9}, "data_source": "https://satec.com.pl/wp-content/uploads/2017/10/RG-58-Premium.pdf", "additional_info": {"ext_diameter_mm": 5.0, "velocity_factor": 0.66, "impedance": 50}}, "rg58flex-satec": {"name": "RG-58 Flex (Satec)", "manufacturer": "Satec", "type": "RG58", "attenuation": {"10": 4.2, "50": 10.5, "100": 15.1, "230": 22.4, "470": 35.6, "860": 49.4, "1000": 54.0, "1350": 65.9}, "data_source": "https://satec.com.pl/wp-content/uploads/2017/10/RG-58-FLEX-94.pdf", "additional_info": {"ext_diameter_mm": 5.0, "velocity_factor": 0.66, "impedance": 50}}, "rg58all-satec": {"name": "RG-58 ALL (Satec)", "manufacturer": "Satec", "type": "RG58", "attenuation": {"50": 8.2, "100": 11.1, "230": 16.3, "470": 24.8, "860": 38.2, "1000": 42.9, "1350": 48.9, "1750": 55.1, "2050": 59.6}, "data_source": "https://satec.com.pl/wp-content/uploads/2017/10/RG-58-ALL.pdf", "additional_info": {"ext_diameter_mm": 5.0, "velocity_factor": 0.78, "impedance": 50}}, "rg213-satec": {"name": "RG-213 (Satec)", "manufacturer": "Satec", "type": "RG213", "attenuation": {"10": 1.8, "100": 6.8, "200": 9.0, "400": 14.4, "1000": 24.7, "1500": 31.5, "2000": 36.4, "3000": 46.6, "5200": 62.0, "5800": 67.0}, "data_source": "https://satec.com.pl/wp-content/uploads/2020/01/RG-213-MIL-C-17F.pdf", "additional_info": {"ext_diameter_mm": 10.3, "velocity_factor": 0.66, "impedance": 50}}, "rg213premium-satec": {"name": "RG-213 Premium (Satec)", "manufacturer": "Satec", "type": "RG213", "attenuation": {"10": 1.7, "50": 4.6, "100": 6.7, "230": 9.8, "470": 15.3, "860": 22.3, "1000": 24.5, "1500": 31.3, "2000": 36.5}, "data_source": "https://satec.com.pl/wp-content/uploads/2017/10/RG-213-Premium.pdf", "additional_info": {"ext_diameter_mm": 10.3, "velocity_factor": 0.66, "impedance": 50}}, "rg142-satec": {"name": "RG-142 (Satec)", "manufacturer": "Satec", "type": "RG142", "attenuation": {"100": 11.0, "200": 15.0, "400": 23.0, "1000": 43.0}, "data_source": "https://satec.com.pl/wp-content/uploads/2020/01/RG-142.pdf", "additional_info": {"ext_diameter_mm": 4.95, "velocity_factor": 0.7, "impedance": 50}}, "rg178-satec": {"name": "RG-178 (Satec)", "manufacturer": "Satec", "type": "RG178", "attenuation": {"100": 46.0, "200": 62.0, "400": 92.0, "1000": 151.0}, "data_source": "https://satec.com.pl/wp-content/uploads/2020/01/RG-178.pdf", "additional_info": {"ext_diameter_mm": 1.8, "velocity_factor": 0.7, "impedance": 50}}, "mrc240-satec": {"name": "MRC-240 (Satec)", "manufacturer": "Satec", "type": "CNT240", "attenuation": {"30": 4.4, "150": 9.9, "220": 12.0, "450": 17.3, "900": 24.8, "1800": 35.6, "2500": 42.4, "5200": 63.3, "5800": 66.8}, "data_source": "https://satec.com.pl/wp-content/uploads/2020/03/MRC-240.pdf", "additional_info": {"ext_diameter_mm": 6.1, "velocity_factor": 0.84, "impedance": 50}}, "ekh-155": {"name": "EKH-155 (Elektrokabel)", "manufacturer": "Elektrokabel", "type": "H155", "attenuation": {"50": 6.5, "100": 9.3, "230": 14.1, "300": 16.3, "470": 16.9, "600": 18.2, "1000": 30.9, "1350": 35.9, "2150": 46.9}, "data_source": "https://elektrokabel.pl/img/1524640314-elektrokabel_ekh-155.pdf", "additional_info": {"ext_diameter_mm": 5.0, "velocity_factor": 0.81, "impedance": 50}}, "andrew-heliax-fsj-1/4": {"name": "Heliax FSJ 1/4\" (Andrew)", "manufacturer": "Andrew", "type": "1/4", "attenuation": {"1.0": 0.577, "1.5": 0.707, "2.0": 0.816, "10.0": 1.833, "20.0": 2.6, "30.0": 3.192, "50.0": 4.136, "85.0": 5.419, "88.0": 5.516, "100.0": 5.889, "108.0": 6.125, "150.0": 7.25, "174.0": 7.825, "200.0": 8.408, "204.0": 8.495, "300.0": 10.373, "400.0": 12.051, "450.0": 12.817, "460.0": 12.965, "500.0": 13.545, "512.0": 13.715, "600.0": 14.909, "700.0": 16.175, "800.0": 17.362, "824.0": 17.637, "894.0": 18.42, "960.0": 19.134, "1000.0": 19.556, "1218.0": 21.738, "1250.0": 22.044, "1500.0": 24.326, "1700.0": 26.038, "1794.0": 26.813, "1800.0": 26.862, "2000.0": 28.455, "2100.0": 29.227, "2200.0": 29.984, "2300.0": 30.727, "2500.0": 32.174, "2700.0": 33.576, "3000.0": 35.602, "3400.0": 38.183, "3600.0": 39.428, "3700.0": 40.041, "3800.0": 40.647, "3900.0": 41.247, "4000.0": 41.841, "4100.0": 42.429, "4200.0": 43.012, "4300.0": 43.59, "4400.0": 44.163, "4500.0": 44.73, "4600.0": 45.293, "4700.0": 45.852, "4800.0": 46.405, "4900.0": 46.955, "5000.0": 47.5, "6000.0": 52.747, "8000.0": 62.37, "8800.0": 65.974, "10000.0": 71.173, "12000.0": 79.393, "14000.0": 87.172, "15800.0": 93.872, "16000.0": 94.601, "18000.0": 101.745}, "data_source": "https://www.commscope.com/globalassets/digizuite/177994-p360-fsj1-50a-external.pdf", "additional_info": {"ext_diameter_mm": 7.36, "velocity_factor": 0.82, "impedance": 50}}, "h500-belden": {"name": "H500 (Belden)", "manufacturer": "Belden", "type": "H500", "attenuation": {"5": 0.9, "50": 2.9, "100": 4.1, "200": 6, "400": 8.7, "600": 10.9, "800": 12.9, "1000": 14.6, "1350": 17.4, "1750": 20.3, "2150": 23, "2400": 24.6, "5000": 38.9, "10000": 61.7}, "data_source": "https://www.belden.com/products/cable/coax-triax-cable/50-ohm-coax-cable/h500c00", "additional_info": {"ext_diameter_mm": 9.8, "velocity_factor": 0.81, "impedance": 50}}, "h1000-belden": {"name": "H1000 (Belden)", "manufacturer": "Belden", "type": "H1000", "attenuation": {"5": 0.8, "50": 2.8, "100": 4, "200": 5.7, "400": 8.4, "600": 10.5, "800": 12.3, "1000": 14, "1350": 16.7, "1750": 19.5, "2150": 22.1, "2400": 23.6, "5000": 37.4, "10000": 59.3}, "data_source": "https://www.belden.com/products/cable/coax-triax-cable/50-ohm-coax-cable/h1000ch", "additional_info": {"ext_diameter_mm": 10.3, "velocity_factor": 0.83, "impedance": 50}}, "CNT400-andrew": {"name": "CNT-400 (Andrew)", "manufacturer": "Andrew", "attenuation": {"30": 2.49, "50": 3.18, "150": 4.92, "220": 6.23, "450": 8.86, "900": 12.8, "1500": 16.7, "1800": 18.4, "120019.4": null, "2400": 21.65, "2500": 22, "3000": 24.6, "240028.87": null, "4500": 30.84, "5000": 32.81, "5200": 33.46, "5500": 34.78, "5800": 35.76, "6000": 36.42}, "data_source": "https://www.commscope.com/globalassets/digizuite/110932-p360-cnt-400-external.pdf", "additional_info": {"ext_diameter_mm": 10.29, "velocity_factor": 0.85, "impedance": 50}}, "RFA-1/2\"-Draka": {"name": "RFA 1/2\" (Draka)", "manufacturer": "Draka", "attenuation": {"10": 0.665, "30": 1.16, "50": 1.51, "88": 2.01, "100": 2.15, "108": 2.24, "174": 2.86, "200": 3.08, "300": 3.81, "400": 4.43, "450": 4.72, "500": 4.99, "512": 5.06, "600": 5.5, "700": 5.98, "800": 6.43, "850": 6.64, "890": 6.81, "900": 6.85, "950": 7.06, "960": 7.1, "1000": 7.26, "1200": 8.02, "1400": 8.74, "1600": 9.41, "1800": 10.0, "1900": 10.4, "2000": 10.7, "2200": 11.3, "2400": 11.8, "2600": 12.4, "2800": 12.9, "3000": 13.4, "3400": 14.4, "6000": 20.2, "8800": 25.5}, "data_source": "http://radio.passus.pl/files/RFA_1_2.pdf", "additional_info": {"ext_diameter_mm": 16.0, "velocity_factor": 0.88, "impedance": 50}}, "RFA-7/8\"-Draka": {"name": "RFA 7/8\" (Draka)", "manufacturer": "Draka", "attenuation": {"10": 0.348, "30": 0.607, "50": 0.787, "88": 1.05, "100": 1.12, "108": 1.17, "174": 1.49, "200": 1.61, "300": 1.98, "400": 2.31, "450": 2.46, "500": 2.6, "512": 2.63, "600": 2.86, "700": 3.11, "800": 3.34, "850": 3.45, "890": 3.54, "900": 3.56, "950": 3.66, "960": 3.68, "1000": 3.77, "1200": 4.16, "1400": 4.53, "1600": 4.87, "1800": 5.2, "1900": 5.36, "2000": 5.51, "2200": 5.81, "2400": 6.11, "2600": 6.39, "2800": 6.66, "3000": 6.93, "3400": 7.44, "4000": 8.17, "5000": 9.3}, "data_source": "http://radio.passus.pl/files/RFA_7_8.pdf", "additional_info": {"ext_diameter_mm": 27.8, "velocity_factor": 0.9, "impedance": 50}}, "UltraFlex-7": {"name": "UltraFlex 7 (M&P)", "manufacturer": "M&P", "type": "RGAC7PLUS", "attenuation": {"1.8": 1.1, "3.5": 1.3, "7": 1.7, "10": 1.9, "14": 2.2, "21": 2.6, "28": 3, "50": 4, "100": 5.8, "144": 6.9, "200": 8.2, "400": 11.8, "430": 12.3, "800": 17.1, "1000": 19.3, "1296": 22.3, "2400": 32.3, "3000": 36.2, "4000": 42.6, "5000": 49.3, "6000": 55.3, "7000": 61.6, "8000": 68.4}, "data_source": "https://messi.it/dati/immagini/RGAC7PLUS-All1_EN.pdf", "additional_info": {"ext_diameter_mm": 7.3, "velocity_factor": 0.83, "impedance": 50}}, "5D-FB-Hansen": {"name": "5D-FB", "manufacturer": "HANSEN", "type": "5D-FB", "attenuation": {"100": 6.3, "150": 7.8, "280": 10.8, "350": 12.1, "400": 13.0, "800": 18.9, "900": 20.2, "1200": 23.7, "1500": 26.8, "1800": 29.7, "1900": 30.6, "2000": 31.5, "2200": 33.3, "2500": 35.8}, "data_source": "https://www.caledonian-cables.co.uk/Coaxia_Cable/50Ohm%20RF/5D-FB.html", "additional_info": {"ext_diametr_mm": 7.5, "velocity_factor": 0.82, "impedance": 50}}, "HyperFlex-5": {"name": "HyperFlex 5 (M&P)", "manufacturer": "M&P", "type": "HYPERFLEX5", "attenuation": {"1.8": 1.4, "3.5": 1.9, "7": 2.3, "10": 2.6, "14": 3.0, "21": 3.6, "28": 4.1, "50": 5.5, "100": 8, "144": 9.6, "200": 11.4, "400": 16.3, "430": 17, "800": 23.4, "1000": 26.4, "1296": 30.5, "2400": 42.5, "3000": 48.1, "4000": 56.9, "5000": 65.2, "6000": 72.9}, "data_source": "https://messi.it/dati/layout/files/cartellaelementi/Hyperflex%205%20-%20Full%20Datasheet%20ENG.pdf", "additional_info": {"ext_diameter_mm": 5.4, "velocity_factor": 0.87, "impedance": 50}}, "4D-FB": {"name": "4D-FB (ELESUN)", "manufacturer": "ELESUN", "type": "4D-FB", "attenuation": {"200": 9.1, "400": 17.8, "900": 25.2, "1500": 33.4, "2000": 38.6, "2400": 43, "2500": 43.8, "3000": 48.2}, "data_source": "https://pl.cnalscable.com/Content/upload/pdf/201712404/r201703211318239176998.pdf?rnd=509", "additional_info": {"ext_diameter_mm": 6.1, "velocity_factor": 0.81, "impedance": 50}}, "Trilan-400": {"name": "Trilan 400 (Dipol)", "manufacturer": "Dipol", "type": "Trilan 400", "attenuation": {"30": 2.3, "50": 3, "150": 4.9, "220": 6, "450": 8.7, "900": 12.8, "1500": 17, "1800": 18.8, "2000": 20, "2500": 22.7, "5800": 37.6}, "data_source": "https://www.dipol.com.pl/przewod_koncentryczny_50_om_tri-lan_400_wll_pe_fca_2_7-7_2-10_3_100m_E1173_100.htm", "additional_info": {"ext_diameter_mm": 10.3, "velocity_factor": 0.83, "impedance": 50}}, "Trilan-240": {"name": "Trilan 240 (Dipol)", "manufacturer": "Dipol", "type": "Trilan 240", "attenuation": {"30": 4.2, "50": 5.4, "150": 9.2, "220": 11.2, "450": 16.2, "900": 23.3, "1500": 30.7, "1800": 33.9, "2000": 35.9, "2500": 40.6, "5800": 65.2}, "data_source": "https://www.dipol.com.pl/przewod_koncentryczny_50_om_tri-lan_240_pe_fca_1_4-3_8-6_1_1m_E1171_1.htm", "additional_info": {"ext_diameter_mm": 6.1, "velocity_factor": 0.81, "impedance": 50}}, "LDF4-50A": {"name": "LDF4-50A (Andrew)", "manufacturer": "Andrew", "type": "LDF4-50A", "attenuation": {"1.0": 0.211, "1.5": 0.259, "2.0": 0.299, "10.0": 0.672, "20.0": 0.954, "30.0": 1.172, "50.0": 1.521, "85.0": 1.995, "88.0": 2.031, "100.0": 2.169, "108.0": 2.256, "150.0": 2.673, "174.0": 2.887, "200.0": 3.103, "204.0": 3.135, "300.0": 3.835, "400.0": 4.462, "450.0": 4.749, "460.0": 4.804, "500.0": 5.021, "512.0": 5.085, "600.0": 5.533, "700.0": 6.009, "800.0": 6.456, "824.0": 6.56, "894.0": 6.855, "960.0": 7.124, "1000.0": 7.284, "1218.0": 8.11, "1250.0": 8.226, "1500.0": 9.093, "1700.0": 9.744, "1794.0": 10.039, "1800.0": 10.058, "2000.0": 10.666, "2100.0": 10.961, "2200.0": 11.251, "2300.0": 11.535, "2500.0": 12.09, "2700.0": 12.627, "3000.0": 13.407, "3400.0": 14.401, "3600.0": 14.882, "3700.0": 15.118, "3800.0": 15.353, "3900.0": 15.585, "4000.0": 15.815, "4100.0": 16.042, "4200.0": 16.268, "4300.0": 16.492, "4400.0": 16.714, "4500.0": 16.934, "4600.0": 17.153, "4700.0": 17.37, "4800.0": 17.585, "4900.0": 17.798, "5000.0": 18.01, "6000.0": 20.055, "8000.0": 23.826}, "data_source": "https://www.commscope.com/globalassets/digizuite/115611-p360-ldf4-50a-external.pdf", "additional_info": {"ext_diameter_mm": 15.875, "velocity_factor": 0.88, "impedance": 50}}, "CNT-600": {"name": "CNT-600 (Andrew)", "manufacturer": "Andrew", "type": "CNT-600", "attenuation": {"30": 1.6, "50": 1.97, "150": 3.2, "220": 3.8, "450": 5.6, "900": 8.2, "1500": 10.8, "1800": 12.1, "2000": 12.8, "2400": 14.44, "2500": 14.8, "3000": 16.4, "4000": 19.36, "4500": 21.0, "5000": 22.31, "5200": 22.97, "5500": 23.62, "5800": 24.28, "6000": 24.93}, "data_source": "https://www.kabeltechnika.pl/dat/kabeltechnika/2348_specyfikacja.pdf", "additional_info": {"ext_diameter_mm": 14.99, "velocity_factor": 0.87, "impedance": 50}}, "AVA5-50FX": {"name": "AVA5-50FX (Andrew)", "manufacturer": "Andrew", "type": "AVA5-50FX", "attenuation": {"0.5": 0.076, "1": 0.108, "1.5": 0.132, "2": 0.153, "10": 0.343, "20": 0.487, "30": 0.599, "50": 0.777, "88": 1.039, "100": 1.11, "108": 1.155, "150": 1.369, "174": 1.479, "200": 1.591, "300": 1.968, "400": 2.292, "450": 2.44, "500": 2.581, "512": 2.614, "600": 2.846, "700": 3.093, "800": 3.325, "824": 3.379, "894": 3.533, "960": 3.673, "1000": 3.756, "1250": 4.247, "1500": 4.7, "1700": 5.04, "1800": 5.205, "2000": 5.523, "2100": 5.678, "2200": 5.83, "2300": 5.979, "2500": 6.27, "2700": 6.553, "3000": 6.963, "3400": 7.487, "3700": 7.866, "4000": 8.234, "5000": 9.396}, "data_source": "https://www.kabeltechnika.pl/dat/kabeltechnika/4379_specyfikacja.pdf", "additional_info": {"ext_diameter_mm": 27.99, "velocity_factor": 0.91, "impedance": 50}}, "HyperFlex-13": {"name": "HyperFlex 13 (M&P)", "manufacturer": "M&P", "type": "HyperFlex 13", "attenuation": {"1.8": 0.5, "3.5": 0.6, "7": 0.8, "10": 1.0, "14": 1.1, "21": 1.3, "28": 1.5, "50": 2.0, "100": 2.8, "144": 3.6, "200": 4.2, "400": 6.1, "430": 6.4, "800": 9.0, "1000": 10.1, "1296": 11.7, "2400": 16.6, "3000": 18.9, "4000": 22.4, "5000": 25.6, "6000": 28.7, "7000": 31.7, "8000": 34.5, "9000": 37.5, "10000": 40.5, "12000": 46.0}, "data_source": "https://messi.it/dati/layout/files/CartellaElementi/Hyperflex%2013%20-%20Full%20Datasheet%20ENG.pdf", "additional_info": {"ext_diameter_mm": 12.7, "velocity_factor": 0.86, "impedance": 50}}, "HyperFlex-10": {"name": "HyperFlex 10 (M&P)", "manufacturer": "M&P", "type": "HyperFlex 10", "attenuation": {"1.8": 0.8, "3.5": 1.0, "7": 1.1, "10": 1.3, "14": 1.5, "21": 1.8, "28": 2.0, "50": 2.7, "100": 3.9, "144": 4.7, "200": 5.6, "400": 8.3, "430": 8.6, "800": 11.9, "1000": 13.4, "1296": 15.4, "2400": 21.8, "3000": 24.6, "4000": 29.1, "5000": 33.1, "6000": 36.9, "7000": 40.7, "8000": 44.2, "9000": 47.5, "10000": 50.7}, "data_source": "https://messi.it/dati/layout/files/CartellaElementi/Hyperflex%2010%20-%20Full%20Datasheet%20ENG.pdf", "additional_info": {"ext_diameter_mm": 10.3, "velocity_factor": 0.87, "impedance": 50}}, "ExtraFlex-BURY-10": {"name": "ExtraFlex Bury 10 (M&P)", "manufacturer": "M&P", "type": "ExtraFlex Bury 10", "attenuation": {"1.8": 0.8, "3.5": 1.0, "7": 1.1, "10": 1.3, "14": 1.5, "21": 1.8, "28": 2.0, "50": 2.7, "100": 3.9, "144": 4.7, "200": 5.6, "400": 8.3, "430": 8.6, "800": 11.9, "1000": 13.4, "1296": 15.4, "2400": 21.8, "3000": 24.6, "4000": 29.1, "5000": 33.1, "6000": 36.9, "7000": 40.7, "8000": 44.2, "9000": 47.5, "10000": 50.7}, "data_source": "https://messi.it/dati/layout/files/CartellaElementi/Extraflex%20Bury%20-%20Full%20Datasheet%20ENG.pdf", "additional_info": {"ext_diameter_mm": 10.3, "velocity_factor": 0.87, "impedance": 50}}, "ExtraFlex-BURY-7": {"name": "ExtraFlex Bury 7 (M&P)", "manufacturer": "M&P", "type": "ExtraFlex Bury 7", "attenuation": {"1.8": 1.1, "3.5": 1.3, "7": 1.7, "10": 1.9, "14": 2.2, "21": 2.6, "28": 3.0, "50": 4.0, "100": 5.8, "144": 6.9, "200": 8.2, "400": 11.8, "430": 12.3, "800": 17.1, "1000": 19.3, "1296": 22.3, "2400": 32.3, "3000": 36.2, "4000": 42.6, "5000": 49.3, "6000": 55.3, "7000": 61.6, "8000": 68.4}, "data_source": "https://messi.it/dati/layout/files/cartellaelementi/extraflex-bury-7-eng-min.pdf", "additional_info": {"ext_diameter_mm": 7.3, "velocity_factor": 0.83, "impedance": 50}}, "Aircell-5": {"name": "Aircell 5 (SSB)", "manufacturer": "SSB-Electronic GmbH", "type": "Aircell 5", "attenuation": {"5": 1.97, "10": 2.78, "50": 6.28, "100": 8.93, "144": 10.76, "200": 12.74, "300": 15.7, "432": 18.99, "500": 20.49, "800": 26.24, "1000": 29.54, "1296": 33.92, "1500": 36.7, "1800": 40.5, "2000": 42.88, "2400": 47.38, "3000": 53.57, "4000": 62.88, "5000": 71.3, "6000": 78.85, "10000": 106.4}, "data_source": "http://ssb.de/download/Kabel/ENG/6050%20ENG.pdf", "additional_info": {"ext_diameter_mm": 5.0, "velocity_factor": 0.85, "impedance": 50}}, "Aircell-7": {"name": "Aircell 7 (SSB)", "manufacturer": "SSB-Electronic GmbH", "type": "Aircell 7", "attenuation": {"5": 1.52, "10": 2.09, "50": 4.29, "100": 5.97, "144": 7.22, "200": 8.59, "300": 10.64, "432": 12.92, "500": 13.98, "800": 18.05, "1000": 20.44, "1296": 23.6, "1500": 25.73, "1800": 28.5, "2000": 30.29, "2400": 33.82, "3000": 38.84, "4000": 46.66, "5000": 54.19, "6000": 61.66}, "data_source": "https://www.ssb.de/download/Kabel/ENG/6070%20ENG.pdf", "additional_info": {"ext_diameter_mm": 7.3, "velocity_factor": 0.85, "impedance": 50}}, "Ecoflex-5": {"name": "Ecoflex 5 (SSB)", "manufacturer": "SSB-Electronic GmbH", "type": "Ecoflex 5", "attenuation": {"10": 2.66, "20": 3.8, "50": 5.32, "100": 7.6, "144": 8.74, "200": 10.21, "300": 12.83, "432": 16.29, "500": 18.05, "800": 22.9, "1000": 26.13, "1296": 29.93, "1500": 32.59, "1800": 36.39, "2000": 38.95, "2400": 43.23, "3000": 49.4, "4000": 57.95, "5000": 66.03, "6000": 74.1}, "data_source": "https://www.ssb.de/download/Kabel/ENG/60500%20ENG.pdfn", "additional_info": {"ext_diameter_mm": 5.5, "velocity_factor": 0.8, "impedance": 50}}, "Ecoflex-7": {"name": "Ecoflex 7 (SSB)", "manufacturer": "SSB-Electronic GmbH", "type": "Ecoflex 7", "attenuation": {"5": 1.33, "10": 1.88, "50": 3.33, "100": 5.37, "144": 6.08, "200": 7.13, "300": 8.93, "432": 11.4, "500": 12.59, "800": 15.96, "1000": 18.43, "1296": 20.71, "1500": 22.99, "1800": 25.46, "2000": 27.27, "2400": 30.4, "3000": 34.96, "4000": 41.99, "5000": 48.83, "6000": 55.48}, "data_source": "https://www.ssb.de/download/Kabel/ENG/60700%20ENG.pdf", "additional_info": {"ext_diameter_mm": 7.3, "velocity_factor": 0.85, "impedance": 50}}, "Ecoflex-10": {"name": "Ecoflex 10 (SSB)", "manufacturer": "SSB-Electronic GmbH", "type": "Ecoflex 10", "attenuation": {"5": 0.76, "10": 1.14, "50": 2.66, "100": 3.8, "144": 4.66, "200": 5.51, "300": 6.94, "432": 8.46, "500": 9.12, "800": 11.88, "1000": 15.49, "1296": 15.68, "1500": 17.01, "1800": 18.91, "2000": 20.14, "2400": 22.42, "3000": 25.37, "4000": 29.55, "5000": 33.44, "6000": 37.05}, "data_source": "https://www.ssb.de/download/Kabel/ENG/6080%20ENG.pdf", "additional_info": {"ext_diameter_mm": 10.2, "velocity_factor": 0.85, "impedance": 50}}, "Ecoflex-15": {"name": "Ecoflex 15 (SSB)", "manufacturer": "SSB-Electronic GmbH", "type": "Ecoflex 15", "attenuation": {"5": 0.6, "10": 0.86, "50": 1.96, "100": 2.81, "144": 3.4, "200": 4.05, "300": 5.0, "432": 6.1, "500": 6.7, "800": 8.6, "1000": 9.8, "1296": 11.4, "1500": 12.4, "1800": 13.8, "2000": 14.6, "2400": 16.2, "3000": 18.3, "4000": 21.6, "5000": 24.6, "6000": 27.5}, "data_source": "https://www.ssb.de/download/Kabel/ENG/6090%20ENG.pdf", "additional_info": {"ext_diameter_mm": 14.6, "velocity_factor": 0.85, "impedance": 50}}, "RG-214": {"name": "RG-214 (Teleg\u00e4rtner)", "manufacturer": "Teleg\u00e4rtner", "type": "RG-214", "attenuation": {"50": 4.5, "100": 6.8, "200": 10.3, "400": 15, "600": 20, "800": 23, "900": 25, "1000": 27, "1200": 30, "1500": 34, "1800": 38, "2000": 40, "2300": 44, "2500": 46, "3000": 51}, "data_source": "https://www.kabeltechnika.pl/dat/kabeltechnika/L01002B0000KP.pdf", "additional_info": {"ext_diameter_mm": 10.8, "velocity_factor": 66, "impedance": 50}}, "UltraFlex-10": {"name": "UltraFlex 10 (M&P)", "manufacturer": "M&P", "type": "UltraFlex 10", "attenuation": {"1.8": 0.8, "3.5": 1.0, "7": 1.2, "10": 1.3, "14": 1.5, "21": 1.8, "28": 2.0, "50": 2.7, "100": 3.9, "144": 4.7, "200": 5.7, "400": 8.3, "430": 8.6, "800": 12.1, "1000": 13.8, "1296": 16.4, "2400": 23.7, "3000": 27.3, "4000": 32.9, "5000": 38.9, "6000": 44.5, "7000": 50.2, "8000": 55.8}, "data_source": "https://messi.it/dati/layout/files/CartellaElementi/ultraflex10-full-datasheet-eng.pdf", "additional_info": {"ext_diameter_mm": 10.3, "velocity_factor": 0.83, "impedance": 50}}, "ContestFlex-10": {"name": "Contest Flex 10 (M&P)", "manufacturer": "M&P", "type": "Contest Flex 10", "attenuation": {"1.8": 0.5, "3.5": 0.8, "7": 1.1, "10": 1.3, "14": 1.5, "21": 1.8, "28": 2.1, "50": 3.0, "144": 5.4, "430": 10.5, "462": 11.0, "467": 11.1}, "data_source": "https://messi.it/dati/layout/files/CartellaElementi/CONTESTFLEX%2010.pdf", "additional_info": {"ext_diameter_mm": 10.3, "velocity_factor": 0.87, "impedance": 50}}, "FSJ4-50B": {"name": "FSJ4-50B (Commscope)", "manufacturer": "Commscope", "type": "1/2 inch", "attenuation": {"0.5": 0.231, "1": 0.327, "1.5": 0.401, "2": 0.463, "10": 1.044, "20": 1.485, "30": 1.828, "50": 2.377, "85": 3.13, "88": 3.187, "100": 3.406, "108": 3.546, "150": 4.214, "174": 4.558, "200": 4.908, "204": 4.96, "300": 6.095, "400": 7.121, "450": 7.592, "500": 8.042, "512": 8.148, "600": 8.891, "700": 9.683, "800": 10.431, "824": 10.605, "894": 11.101, "960": 11.555, "1000": 11.824, "1218": 13.226, "1250": 13.423, "1500": 14.906, "1700": 16.027, "1794": 16.537, "1800": 16.57, "2000": 17.624, "2100": 18.137, "2200": 18.641, "2300": 19.138, "2500": 20.11, "2700": 21.056, "3000": 22.432, "3400": 24.198, "3700": 25.478, "4000": 26.727, "5000": 30.693, "6000": 34.427, "8000": 41.403, "8800": 44.054, "10000": 47.914}, "data_source": "https://www.kabeltechnika.pl/dat/kabeltechnika/279_specyfikacja.pdf", "additional_info": {"ext_diameter_mm": 13.5, "velocity_factor": 81, "impedance": 50}}}
 </script>
+<script type="application/json" id="i18n_data">
+{"en": {"title": "Coaxial Cable Loss Calculator", "tagline": "Compare attenuation and power loss across coax cables.", "language": "Language", "parameters": "Parameters", "freq": "Frequency (MHz)", "cable_length": "Cable length", "length_unit_aria": "Length unit", "power_in": "Power in (W)", "amateur_band": "Amateur band (mid)", "filters": "Filters", "search": "Search", "search_placeholder": "e.g. RG-213, H155, Ecoflex\u2026", "manufacturer": "Manufacturer", "all_manufacturers": "All manufacturers", "tip": "Tip: click a row to pin-highlight it for comparison. Click a column header to sort.", "chart_title": "Loss vs cable length", "chart_blurb": "Loss in dB at the chosen frequency, for each filtered cable. The dashed line marks your chosen length. Pinned cables are drawn thicker.", "chart_x": "Cable length ({unit})", "chart_y": "Loss (dB) @ {freq} MHz", "summary": "Calculating for {freq} MHz, {length} {unit}, {power} W input \u2014 {count} cable(s) shown. \u201c\u2014\u201d means no attenuation data at this frequency.", "col_cable": "Cable", "col_manufacturer": "Manufacturer", "col_loss_db": "Loss (dB)", "col_s_units": "\u2248 S", "col_s_units_title": "Approximate S-units lost (1 S-unit \u2248 6 dB)", "col_loss_pct": "Loss (%)", "col_power_out": "Power out (W)", "col_diameter": "\u00d8 (mm)", "col_vf": "VF", "col_datasheet": "Datasheet", "no_results": "No cables match the current filters.", "footer_fork": "This project is a fork of", "footer_credit": "All credit for the original idea, implementation, and cable data goes to", "how_it_works": "How it works", "s_title": "What does this mean for S-levels?", "s_p1": "Amateur receivers often show signal strength in S-units. As a rule of thumb, 1 S-unit \u2248 6 dB.", "s_p2": "Feedline loss over your chosen length weakens the signal by that many S-units at the far end \u2014 on both transmit and receive.", "s_example": "At {freq} MHz over {length} {unit}, each cable\u2019s Loss (dB) \u00f7 6 \u2248 S-units lost (see the \u2248 S column)."}, "pt": {"title": "Calculadora de Perdas em Cabo Coaxial", "tagline": "Compare atenua\u00e7\u00e3o e perda de pot\u00eancia entre cabos coaxiais.", "language": "Idioma", "parameters": "Par\u00e2metros", "freq": "Frequ\u00eancia (MHz)", "cable_length": "Comprimento do cabo", "length_unit_aria": "Unidade de comprimento", "power_in": "Pot\u00eancia de entrada (W)", "amateur_band": "Banda amadora (meio)", "filters": "Filtros", "search": "Pesquisar", "search_placeholder": "ex. RG-213, H155, Ecoflex\u2026", "manufacturer": "Fabricante", "all_manufacturers": "Todos os fabricantes", "tip": "Dica: clique numa linha para a fixar e comparar. Clique no cabe\u00e7alho de uma coluna para ordenar.", "chart_title": "Perda vs comprimento do cabo", "chart_blurb": "Perda em dB na frequ\u00eancia escolhida, para cada cabo filtrado. A linha tracejada marca o comprimento escolhido. Cabos fixados s\u00e3o desenhados mais grossos.", "chart_x": "Comprimento do cabo ({unit})", "chart_y": "Perda (dB) @ {freq} MHz", "summary": "A calcular para {freq} MHz, {length} {unit}, {power} W de entrada \u2014 {count} cabo(s) mostrados. \u201c\u2014\u201d significa sem dados de atenua\u00e7\u00e3o nesta frequ\u00eancia.", "col_cable": "Cabo", "col_manufacturer": "Fabricante", "col_loss_db": "Perda (dB)", "col_s_units": "\u2248 S", "col_s_units_title": "Unidades S aproximadas perdidas (1 unidade S \u2248 6 dB)", "col_loss_pct": "Perda (%)", "col_power_out": "Pot\u00eancia de sa\u00edda (W)", "col_diameter": "\u00d8 (mm)", "col_vf": "VF", "col_datasheet": "Datasheet", "no_results": "Nenhum cabo corresponde aos filtros atuais.", "footer_fork": "Este projeto \u00e9 um fork de", "footer_credit": "Todo o cr\u00e9dito pela ideia original, implementa\u00e7\u00e3o e dados dos cabos vai para", "how_it_works": "Como funciona", "s_title": "O que isto significa para os n\u00edveis S?", "s_p1": "Os recetores amadores mostram frequentemente a intensidade do sinal em unidades S. Como regra pr\u00e1tica, 1 unidade S \u2248 6 dB.", "s_p2": "A perda da linha de alimenta\u00e7\u00e3o no comprimento escolhido enfraquece o sinal nesse n\u00famero de unidades S no extremo oposto \u2014 tanto em transmiss\u00e3o como em rece\u00e7\u00e3o.", "s_example": "A {freq} MHz em {length} {unit}, a Perda (dB) de cada cabo \u00f7 6 \u2248 unidades S perdidas (ver a coluna \u2248 S)."}, "it": {"title": "Calcolatore di Perdite del Cavo Coassiale", "tagline": "Confronta attenuazione e perdita di potenza tra cavi coassiali.", "language": "Lingua", "parameters": "Parametri", "freq": "Frequenza (MHz)", "cable_length": "Lunghezza del cavo", "length_unit_aria": "Unit\u00e0 di lunghezza", "power_in": "Potenza in ingresso (W)", "amateur_band": "Banda amatoriale (centro)", "filters": "Filtri", "search": "Cerca", "search_placeholder": "es. RG-213, H155, Ecoflex\u2026", "manufacturer": "Produttore", "all_manufacturers": "Tutti i produttori", "tip": "Suggerimento: clicca una riga per evidenziarla e confrontarla. Clicca l\u2019intestazione di una colonna per ordinare.", "chart_title": "Perdita vs lunghezza del cavo", "chart_blurb": "Perdita in dB alla frequenza scelta, per ogni cavo filtrato. La linea tratteggiata segna la lunghezza scelta. I cavi fissati sono disegnati pi\u00f9 spessi.", "chart_x": "Lunghezza del cavo ({unit})", "chart_y": "Perdita (dB) @ {freq} MHz", "summary": "Calcolo per {freq} MHz, {length} {unit}, {power} W in ingresso \u2014 {count} cavo/i mostrati. \u201c\u2014\u201d indica assenza di dati di attenuazione a questa frequenza.", "col_cable": "Cavo", "col_manufacturer": "Produttore", "col_loss_db": "Perdita (dB)", "col_s_units": "\u2248 S", "col_s_units_title": "Unit\u00e0 S approssimative perse (1 unit\u00e0 S \u2248 6 dB)", "col_loss_pct": "Perdita (%)", "col_power_out": "Potenza in uscita (W)", "col_diameter": "\u00d8 (mm)", "col_vf": "VF", "col_datasheet": "Scheda tecnica", "no_results": "Nessun cavo corrisponde ai filtri attuali.", "footer_fork": "Questo progetto \u00e8 un fork di", "footer_credit": "Tutto il merito per l\u2019idea originale, l\u2019implementazione e i dati dei cavi va a", "how_it_works": "Come funziona", "s_title": "Cosa significa per i livelli S?", "s_p1": "I ricevitori amatoriali mostrano spesso la forza del segnale in unit\u00e0 S. Come regola pratica, 1 unit\u00e0 S \u2248 6 dB.", "s_p2": "La perdita della linea di alimentazione sulla lunghezza scelta indebolisce il segnale di quel numero di unit\u00e0 S all\u2019altra estremit\u00e0 \u2014 sia in trasmissione che in ricezione.", "s_example": "A {freq} MHz su {length} {unit}, la Perdita (dB) di ogni cavo \u00f7 6 \u2248 unit\u00e0 S perse (vedi la colonna \u2248 S)."}, "fr": {"title": "Calculateur de Pertes de C\u00e2ble Coaxial", "tagline": "Comparez l\u2019att\u00e9nuation et la perte de puissance entre c\u00e2bles coaxiaux.", "language": "Langue", "parameters": "Param\u00e8tres", "freq": "Fr\u00e9quence (MHz)", "cable_length": "Longueur du c\u00e2ble", "length_unit_aria": "Unit\u00e9 de longueur", "power_in": "Puissance d\u2019entr\u00e9e (W)", "amateur_band": "Bande amateur (milieu)", "filters": "Filtres", "search": "Rechercher", "search_placeholder": "ex. RG-213, H155, Ecoflex\u2026", "manufacturer": "Fabricant", "all_manufacturers": "Tous les fabricants", "tip": "Astuce : cliquez une ligne pour l\u2019\u00e9pingler et la comparer. Cliquez l\u2019en-t\u00eate d\u2019une colonne pour trier.", "chart_title": "Perte vs longueur du c\u00e2ble", "chart_blurb": "Perte en dB \u00e0 la fr\u00e9quence choisie, pour chaque c\u00e2ble filtr\u00e9. La ligne pointill\u00e9e marque la longueur choisie. Les c\u00e2bles \u00e9pingl\u00e9s sont trac\u00e9s plus \u00e9pais.", "chart_x": "Longueur du c\u00e2ble ({unit})", "chart_y": "Perte (dB) @ {freq} MHz", "summary": "Calcul pour {freq} MHz, {length} {unit}, {power} W en entr\u00e9e \u2014 {count} c\u00e2ble(s) affich\u00e9(s). \u00ab \u2014 \u00bb signifie aucune donn\u00e9e d\u2019att\u00e9nuation \u00e0 cette fr\u00e9quence.", "col_cable": "C\u00e2ble", "col_manufacturer": "Fabricant", "col_loss_db": "Perte (dB)", "col_s_units": "\u2248 S", "col_s_units_title": "Unit\u00e9s S approximatives perdues (1 unit\u00e9 S \u2248 6 dB)", "col_loss_pct": "Perte (%)", "col_power_out": "Puissance de sortie (W)", "col_diameter": "\u00d8 (mm)", "col_vf": "VF", "col_datasheet": "Fiche technique", "no_results": "Aucun c\u00e2ble ne correspond aux filtres actuels.", "footer_fork": "Ce projet est un fork de", "footer_credit": "Tout le cr\u00e9dit pour l\u2019id\u00e9e originale, l\u2019impl\u00e9mentation et les donn\u00e9es des c\u00e2bles revient \u00e0", "how_it_works": "Comment \u00e7a marche", "s_title": "Que signifie cela pour les niveaux S ?", "s_p1": "Les r\u00e9cepteurs amateurs affichent souvent la force du signal en unit\u00e9s S. En r\u00e8gle g\u00e9n\u00e9rale, 1 unit\u00e9 S \u2248 6 dB.", "s_p2": "La perte de la ligne d\u2019alimentation sur la longueur choisie affaiblit le signal de ce nombre d\u2019unit\u00e9s S \u00e0 l\u2019autre bout \u2014 en \u00e9mission comme en r\u00e9ception.", "s_example": "\u00c0 {freq} MHz sur {length} {unit}, la Perte (dB) de chaque c\u00e2ble \u00f7 6 \u2248 unit\u00e9s S perdues (voir la colonne \u2248 S)."}, "pl": {"title": "Kalkulator Strat Kabla Koncentrycznego", "tagline": "Por\u00f3wnaj t\u0142umienie i strat\u0119 mocy mi\u0119dzy kablami koncentrycznymi.", "language": "J\u0119zyk", "parameters": "Parametry", "freq": "Cz\u0119stotliwo\u015b\u0107 (MHz)", "cable_length": "D\u0142ugo\u015b\u0107 kabla", "length_unit_aria": "Jednostka d\u0142ugo\u015bci", "power_in": "Moc wej\u015bciowa (W)", "amateur_band": "Pasmo amatorskie (\u015brodek)", "filters": "Filtry", "search": "Szukaj", "search_placeholder": "np. RG-213, H155, Ecoflex\u2026", "manufacturer": "Producent", "all_manufacturers": "Wszyscy producenci", "tip": "Wskaz\u00f3wka: kliknij wiersz, aby go przypi\u0105\u0107 i por\u00f3wna\u0107. Kliknij nag\u0142\u00f3wek kolumny, aby sortowa\u0107.", "chart_title": "Strata vs d\u0142ugo\u015b\u0107 kabla", "chart_blurb": "Strata w dB przy wybranej cz\u0119stotliwo\u015bci dla ka\u017cdego przefiltrowanego kabla. Przerywana linia oznacza wybran\u0105 d\u0142ugo\u015b\u0107. Przypi\u0119te kable s\u0105 rysowane grubiej.", "chart_x": "D\u0142ugo\u015b\u0107 kabla ({unit})", "chart_y": "Strata (dB) @ {freq} MHz", "summary": "Obliczenia dla {freq} MHz, {length} {unit}, {power} W na wej\u015bciu \u2014 pokazano {count} kabel/kabli. \u201e\u2014\u201d oznacza brak danych o t\u0142umieniu przy tej cz\u0119stotliwo\u015bci.", "col_cable": "Kabel", "col_manufacturer": "Producent", "col_loss_db": "Strata (dB)", "col_s_units": "\u2248 S", "col_s_units_title": "Przybli\u017cona strata w jednostkach S (1 jednostka S \u2248 6 dB)", "col_loss_pct": "Strata (%)", "col_power_out": "Moc wyj\u015bciowa (W)", "col_diameter": "\u00d8 (mm)", "col_vf": "VF", "col_datasheet": "Karta katalogowa", "no_results": "\u017baden kabel nie pasuje do bie\u017c\u0105cych filtr\u00f3w.", "footer_fork": "Ten projekt jest forkiem", "footer_credit": "Wszystkie zas\u0142ugi za oryginalny pomys\u0142, implementacj\u0119 i dane kabli nale\u017c\u0105 do", "how_it_works": "Jak to dzia\u0142a", "s_title": "Co to oznacza dla poziom\u00f3w S?", "s_p1": "Odbiorniki amatorskie cz\u0119sto pokazuj\u0105 si\u0142\u0119 sygna\u0142u w jednostkach S. Zasadniczo 1 jednostka S \u2248 6 dB.", "s_p2": "Strata linii zasilaj\u0105cej na wybranej d\u0142ugo\u015bci os\u0142abia sygna\u0142 o tyle jednostek S na drugim ko\u0144cu \u2014 zar\u00f3wno przy nadawaniu, jak i odbiorze.", "s_example": "Przy {freq} MHz na {length} {unit}, Strata (dB) ka\u017cdego kabla \u00f7 6 \u2248 utracone jednostki S (zobacz kolumn\u0119 \u2248 S)."}, "de": {"title": "Koaxialkabel-Verlustrechner", "tagline": "Vergleiche D\u00e4mpfung und Leistungsverlust verschiedener Koaxialkabel.", "language": "Sprache", "parameters": "Parameter", "freq": "Frequenz (MHz)", "cable_length": "Kabell\u00e4nge", "length_unit_aria": "L\u00e4ngeneinheit", "power_in": "Eingangsleistung (W)", "amateur_band": "Amateurfunkband (Mitte)", "filters": "Filter", "search": "Suche", "search_placeholder": "z. B. RG-213, H155, Ecoflex\u2026", "manufacturer": "Hersteller", "all_manufacturers": "Alle Hersteller", "tip": "Tipp: Klicke eine Zeile an, um sie zum Vergleich zu pinnen. Klicke eine Spalten\u00fcberschrift zum Sortieren.", "chart_title": "Verlust vs. Kabell\u00e4nge", "chart_blurb": "Verlust in dB bei der gew\u00e4hlten Frequenz f\u00fcr jedes gefilterte Kabel. Die gestrichelte Linie markiert die gew\u00e4hlte L\u00e4nge. Angepinnte Kabel werden dicker gezeichnet.", "chart_x": "Kabell\u00e4nge ({unit})", "chart_y": "Verlust (dB) @ {freq} MHz", "summary": "Berechnung f\u00fcr {freq} MHz, {length} {unit}, {power} W Eingang \u2014 {count} Kabel angezeigt. \u201e\u2014\u201c bedeutet keine D\u00e4mpfungsdaten bei dieser Frequenz.", "col_cable": "Kabel", "col_manufacturer": "Hersteller", "col_loss_db": "Verlust (dB)", "col_s_units": "\u2248 S", "col_s_units_title": "Ungef\u00e4hre verlorene S-Stufen (1 S-Stufe \u2248 6 dB)", "col_loss_pct": "Verlust (%)", "col_power_out": "Ausgangsleistung (W)", "col_diameter": "\u00d8 (mm)", "col_vf": "VF", "col_datasheet": "Datenblatt", "no_results": "Keine Kabel entsprechen den aktuellen Filtern.", "footer_fork": "Dieses Projekt ist ein Fork von", "footer_credit": "Der gesamte Verdienst f\u00fcr die Originalidee, Umsetzung und Kabeldaten geb\u00fchrt", "how_it_works": "So funktioniert es", "s_title": "Was bedeutet das f\u00fcr S-Stufen?", "s_p1": "Amateurfunkempf\u00e4nger zeigen die Signalst\u00e4rke oft in S-Stufen an. Faustregel: 1 S-Stufe \u2248 6 dB.", "s_p2": "Die Speiseleitungsverluste \u00fcber die gew\u00e4hlte L\u00e4nge schw\u00e4chen das Signal um so viele S-Stufen am anderen Ende \u2014 beim Senden und Empfangen.", "s_example": "Bei {freq} MHz \u00fcber {length} {unit}: Verlust (dB) jedes Kabels \u00f7 6 \u2248 verlorene S-Stufen (siehe Spalte \u2248 S)."}}
+</script>
 
 <div class="max-w-6xl mx-auto px-4 py-8">
 
   <!-- Header -->
-  <header class="mb-6">
-    <h1 class="text-3xl font-bold tracking-tight text-slate-900">Coaxial Cable Loss Calculator</h1>
-    <p class="text-slate-500 mt-1">Compare attenuation and power loss across coax cables.</p>
+  <header class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+    <div>
+      <h1 class="text-3xl font-bold tracking-tight text-slate-900" data-i18n="title">Coaxial Cable Loss Calculator</h1>
+      <p class="text-slate-500 mt-1" data-i18n="tagline">Compare attenuation and power loss across coax cables.</p>
+    </div>
+    <label class="block sm:text-right shrink-0">
+      <span class="text-sm font-medium text-slate-700" data-i18n="language">Language</span>
+      <select id="lang" onchange="setLanguage(this.value)"
+              class="mt-1 block w-full sm:w-auto rounded-lg border border-slate-300 px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+        <option value="en">English</option>
+        <option value="pt">Português</option>
+        <option value="it">Italiano</option>
+        <option value="fr">Français</option>
+        <option value="pl">Polski</option>
+        <option value="de">Deutsch</option>
+      </select>
+    </label>
   </header>
 
   <!-- Parameters card -->
   <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5 mb-4">
-    <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500 mb-3">Parameters</h2>
+    <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500 mb-3" data-i18n="parameters">Parameters</h2>
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
       <label class="block sm:col-span-1">
-        <span class="text-sm font-medium text-slate-700">Frequency (MHz)</span>
+        <span class="text-sm font-medium text-slate-700" data-i18n="freq">Frequency (MHz)</span>
         <input type="number" id="freq" min="0.1" max="10000" step="0.001" value="145" oninput="updateBandButtons(); update();"
                class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
       </label>
       <div class="block">
         <div class="flex items-center justify-between gap-2">
-          <span class="text-sm font-medium text-slate-700">Cable length</span>
-          <div class="inline-flex rounded-md border border-slate-300 overflow-hidden text-xs font-medium" role="group" aria-label="Length unit">
+          <span class="text-sm font-medium text-slate-700" data-i18n="cable_length">Cable length</span>
+          <div class="inline-flex rounded-md border border-slate-300 overflow-hidden text-xs font-medium" role="group" data-i18n-aria="length_unit_aria" aria-label="Length unit">
             <button type="button" id="unit_m" onclick="setLengthUnit('m')"
                     class="px-2.5 py-1 transition-colors">m</button>
             <button type="button" id="unit_ft" onclick="setLengthUnit('ft')"
@@ -45,40 +62,40 @@
                class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
       </div>
       <label class="block">
-        <span class="text-sm font-medium text-slate-700">Power in (W)</span>
+        <span class="text-sm font-medium text-slate-700" data-i18n="power_in">Power in (W)</span>
         <input type="number" id="pwr" min="1" max="1500" step="1" value="100" oninput="update();"
                class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
       </label>
     </div>
     <div class="mt-4">
-      <span class="text-sm font-medium text-slate-700">Amateur band (mid)</span>
+      <span class="text-sm font-medium text-slate-700" data-i18n="amateur_band">Amateur band (mid)</span>
       <div id="band_buttons" class="mt-2 flex flex-wrap gap-1.5"></div>
     </div>
   </div>
 
   <!-- Filters card -->
   <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5 mb-4">
-    <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500 mb-3">Filters</h2>
+    <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500 mb-3" data-i18n="filters">Filters</h2>
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
       <label class="block">
-        <span class="text-sm font-medium text-slate-700">Search</span>
-        <input type="search" id="search" placeholder="e.g. RG-213, H155, Ecoflex…" oninput="update();"
+        <span class="text-sm font-medium text-slate-700" data-i18n="search">Search</span>
+        <input type="search" id="search" data-i18n-placeholder="search_placeholder" placeholder="e.g. RG-213, H155, Ecoflex…" oninput="update();"
                class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
       </label>
       <label class="block">
-        <span class="text-sm font-medium text-slate-700">Manufacturer</span>
+        <span class="text-sm font-medium text-slate-700" data-i18n="manufacturer">Manufacturer</span>
         <select id="manufacturer" onchange="update();"
                 class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
         </select>
       </label>
     </div>
-    <p class="text-xs text-slate-400 mt-3">Tip: click a row to pin-highlight it for comparison. Click a column header to sort.</p>
+    <p class="text-xs text-slate-400 mt-3" data-i18n="tip">Tip: click a row to pin-highlight it for comparison. Click a column header to sort.</p>
   </div>
 
   <!-- Loss vs length chart -->
   <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5 mb-4">
-    <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500 mb-1">Loss vs cable length</h2>
-    <p class="text-xs text-slate-400 mb-3">
+    <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500 mb-1" data-i18n="chart_title">Loss vs cable length</h2>
+    <p class="text-xs text-slate-400 mb-3" data-i18n="chart_blurb">
       Loss in dB at the chosen frequency, for each filtered cable. The dashed line marks your chosen length.
       Pinned cables are drawn thicker.
     </p>
@@ -90,38 +107,49 @@
   <!-- Summary line -->
   <p id="summary" class="text-sm text-slate-500 mb-2"></p>
 
+  <!-- S-unit guidance -->
+  <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5 mb-4">
+    <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500 mb-2" data-i18n="s_title">What does this mean for S-levels?</h2>
+    <div class="text-sm text-slate-600 space-y-2">
+      <p data-i18n="s_p1">Amateur receivers often show signal strength in S-units. As a rule of thumb, 1 S-unit ≈ 6 dB.</p>
+      <p data-i18n="s_p2">Feedline loss over your chosen length weakens the signal by that many S-units at the far end — on both transmit and receive.</p>
+      <p id="s_example" class="text-slate-500"></p>
+    </div>
+  </div>
+
   <!-- Results table -->
   <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
     <div class="overflow-x-auto">
       <table class="w-full text-sm">
         <thead class="bg-slate-50 text-slate-600 sticky top-0">
           <tr id="table_header">
-            <th data-sort="name" class="px-4 py-3 text-left font-semibold cursor-pointer select-none hover:text-slate-900">Cable</th>
-            <th data-sort="manufacturer" class="px-4 py-3 text-left font-semibold cursor-pointer select-none hover:text-slate-900">Manufacturer</th>
-            <th data-sort="att" class="px-4 py-3 text-right font-semibold cursor-pointer select-none hover:text-slate-900">Loss (dB)</th>
-            <th data-sort="loss_percentage" class="px-4 py-3 text-right font-semibold cursor-pointer select-none hover:text-slate-900">Loss (%)</th>
-            <th data-sort="pwr_out" class="px-4 py-3 text-right font-semibold cursor-pointer select-none hover:text-slate-900">Power out (W)</th>
-            <th data-sort="diameter" class="px-4 py-3 text-right font-semibold cursor-pointer select-none hover:text-slate-900 hidden md:table-cell">Ø (mm)</th>
-            <th data-sort="vf" class="px-4 py-3 text-right font-semibold cursor-pointer select-none hover:text-slate-900 hidden md:table-cell">VF</th>
-            <th class="px-4 py-3 text-center font-semibold">Datasheet</th>
+            <th data-sort="name" data-i18n="col_cable" class="px-4 py-3 text-left font-semibold cursor-pointer select-none hover:text-slate-900">Cable</th>
+            <th data-sort="manufacturer" data-i18n="col_manufacturer" class="px-4 py-3 text-left font-semibold cursor-pointer select-none hover:text-slate-900">Manufacturer</th>
+            <th data-sort="att" data-i18n="col_loss_db" class="px-4 py-3 text-right font-semibold cursor-pointer select-none hover:text-slate-900">Loss (dB)</th>
+            <th data-sort="s_units" data-i18n="col_s_units" data-i18n-title="col_s_units_title" title="Approximate S-units lost (1 S-unit ≈ 6 dB)" class="px-4 py-3 text-right font-semibold cursor-pointer select-none hover:text-slate-900">≈ S</th>
+            <th data-sort="loss_percentage" data-i18n="col_loss_pct" class="px-4 py-3 text-right font-semibold cursor-pointer select-none hover:text-slate-900">Loss (%)</th>
+            <th data-sort="pwr_out" data-i18n="col_power_out" class="px-4 py-3 text-right font-semibold cursor-pointer select-none hover:text-slate-900">Power out (W)</th>
+            <th data-sort="diameter" data-i18n="col_diameter" class="px-4 py-3 text-right font-semibold cursor-pointer select-none hover:text-slate-900 hidden md:table-cell">Ø (mm)</th>
+            <th data-sort="vf" data-i18n="col_vf" class="px-4 py-3 text-right font-semibold cursor-pointer select-none hover:text-slate-900 hidden md:table-cell">VF</th>
+            <th data-i18n="col_datasheet" class="px-4 py-3 text-center font-semibold">Datasheet</th>
           </tr>
         </thead>
         <tbody id="table_body" class="divide-y divide-slate-100"></tbody>
       </table>
     </div>
-    <p id="no_results" class="hidden text-center text-slate-400 py-8">No cables match the current filters.</p>
+    <p id="no_results" class="hidden text-center text-slate-400 py-8" data-i18n="no_results">No cables match the current filters.</p>
   </div>
 
   <!-- Footer / credits -->
   <footer class="mt-6 text-center text-xs text-slate-400 space-y-1">
     <p>
-      This project is a fork of
+      <span data-i18n="footer_fork">This project is a fork of</span>
       <a href="https://github.com/olgierd/coaxcalculator" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">olgierd/coaxcalculator</a>.
-      All credit for the original idea, implementation, and cable data goes to
+      <span data-i18n="footer_credit">All credit for the original idea, implementation, and cable data goes to</span>
       <a href="https://github.com/olgierd" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">Olgierd</a>.
     </p>
     <p>
-      <a href="https://github.com/olgierd/coaxcalculator/blob/main/README.md" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">How it works</a>
+      <a href="https://github.com/olgierd/coaxcalculator/blob/main/README.md" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline" data-i18n="how_it_works">How it works</a>
       ·
       <a href="https://github.com/olgierd/coaxcalculator/blob/main/README_pl.md" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">Jak to działa</a>
     </p>
@@ -131,12 +159,73 @@
 
 <script>
   var cables = JSON.parse(document.getElementById('cable_data').innerHTML);
+  var locales = JSON.parse(document.getElementById('i18n_data').innerHTML);
+  var LANG_KEY = "coaxcalc-lang";
+  var SUPPORTED_LANGS = ["en", "pt", "it", "fr", "pl", "de"];
+  var current_lang = "en";
 
   var selected = [];
   var sort_state = { column: "att", ascending: true };
   var loss_chart = null;
   var length_unit = "m";   // "m" or "ft"
   var FT_PER_M = 3.280839895;
+  var DB_PER_S_UNIT = 6;
+
+  function detectLanguage() {
+    try {
+      var saved = localStorage.getItem(LANG_KEY);
+      if (saved && SUPPORTED_LANGS.includes(saved)) return saved;
+    } catch (e) {}
+    var nav = (navigator.language || navigator.userLanguage || "en").toLowerCase();
+    var prefix = nav.split("-")[0];
+    if (SUPPORTED_LANGS.includes(prefix)) return prefix;
+    return "en";
+  }
+
+  function t(key, vars) {
+    var dict = locales[current_lang] || locales.en;
+    var str = (dict && dict[key]) || (locales.en && locales.en[key]) || key;
+    if (vars) {
+      Object.keys(vars).forEach(function(k) {
+        str = str.replace(new RegExp("\\{" + k + "\\}", "g"), vars[k]);
+      });
+    }
+    return str;
+  }
+
+  function applyI18n() {
+    document.documentElement.lang = current_lang;
+    document.querySelectorAll("[data-i18n]").forEach(function(el) {
+      var key = el.getAttribute("data-i18n");
+      // Preserve sort arrows on table headers — update() refreshes those
+      if (el.closest("#table_header") && el.hasAttribute("data-sort")) {
+        el.textContent = t(key);
+        return;
+      }
+      el.textContent = t(key);
+    });
+    document.querySelectorAll("[data-i18n-placeholder]").forEach(function(el) {
+      el.placeholder = t(el.getAttribute("data-i18n-placeholder"));
+    });
+    document.querySelectorAll("[data-i18n-title]").forEach(function(el) {
+      el.title = t(el.getAttribute("data-i18n-title"));
+    });
+    document.querySelectorAll("[data-i18n-aria]").forEach(function(el) {
+      el.setAttribute("aria-label", t(el.getAttribute("data-i18n-aria")));
+    });
+    var allOpt = document.querySelector("#manufacturer option[value='']");
+    if (allOpt) allOpt.text = t("all_manufacturers");
+    update();
+  }
+
+  function setLanguage(lang) {
+    if (!SUPPORTED_LANGS.includes(lang)) lang = "en";
+    current_lang = lang;
+    try { localStorage.setItem(LANG_KEY, lang); } catch (e) {}
+    var select = document.getElementById("lang");
+    if (select) select.value = lang;
+    applyI18n();
+  }
 
   function lengthToMeters(value, unit) {
     return unit === "ft" ? value / FT_PER_M : value;
@@ -260,11 +349,11 @@
           type: 'linear',
           min: 0,
           max: xmax,
-          title: { display: true, text: 'Cable length (' + unit + ')' }
+          title: { display: true, text: t("chart_x", { unit: unit }) }
         },
         y: {
           min: 0,
-          title: { display: true, text: 'Loss (dB) @ ' + params.freq + ' MHz' }
+          title: { display: true, text: t("chart_y", { freq: params.freq }) }
         }
       },
       plugins: {
@@ -307,9 +396,10 @@
     manufacturers.sort(function(a, b) { return a.toLowerCase().localeCompare(b.toLowerCase()); });
 
     var select = document.getElementById('manufacturer');
+    select.innerHTML = "";
     var all_option = document.createElement('option');
     all_option.value = "";
-    all_option.text = "All manufacturers";
+    all_option.text = t("all_manufacturers");
     select.appendChild(all_option);
 
     manufacturers.forEach(m => {
@@ -431,9 +521,11 @@
       att: "—",
       pwr_out: "—",
       loss_percentage: "—",
+      s_units: "—",
       att_num: null,
       pwr_out_num: null,
-      loss_percentage_num: null
+      loss_percentage_num: null,
+      s_units_num: null
     }
 
     if(cable_data.att100m < 10000) {
@@ -441,11 +533,13 @@
       output.att_num = cable_data.att100m * params.length/100;
       output.pwr_out_num = 10**(Math.log10(params.pwr_in)-output.att_num/10);
       output.loss_percentage_num = 100-10**(Math.log10(100)-output.att_num/10);
+      output.s_units_num = output.att_num / DB_PER_S_UNIT;
 
       // round and change to strings
       output.att = (Math.round(output.att_num*100)/100).toFixed(2);
       output.pwr_out = (Math.round(output.pwr_out_num*100)/100).toFixed(2);
       output.loss_percentage = (Math.round(output.loss_percentage_num*10)/10).toFixed(1);
+      output.s_units = (Math.round(output.s_units_num*10)/10).toFixed(1);
     }
 
     return output;
@@ -475,7 +569,8 @@
 
   function updateHeaderIndicators() {
     document.querySelectorAll('#table_header th[data-sort]').forEach(th => {
-      var base = th.textContent.replace(/[\u25B2\u25BC]\s*$/, '').trim();
+      var key = th.getAttribute("data-i18n");
+      var base = key ? t(key) : th.textContent.replace(/[\u25B2\u25BC]\s*$/, '').trim();
       if(th.dataset.sort === sort_state.column) {
         th.textContent = base + (sort_state.ascending ? " \u25B2" : " \u25BC");
       }
@@ -537,6 +632,7 @@
         name: row.name,
         manufacturer: cable.manufacturer || null,
         att: row.att_num,
+        s_units: row.s_units_num,
         loss_percentage: row.loss_percentage_num,
         pwr_out: row.pwr_out_num,
         diameter: row.diameter,
@@ -551,15 +647,26 @@
     renderChart(sorted_rows, params);
 
     // summary line
-    document.getElementById('summary').textContent =
-      "Calculating for " + params.freq + " MHz, " + params.length_display + " " + params.length_unit +
-      ", " + params.pwr_in + " W input — " +
-      sorted_rows.length + " cable(s) shown. \u201C\u2014\u201D means no attenuation data at this frequency.";
+    document.getElementById('summary').textContent = t("summary", {
+      freq: params.freq,
+      length: params.length_display,
+      unit: params.length_unit,
+      power: params.pwr_in,
+      count: sorted_rows.length
+    });
+
+    document.getElementById('s_example').textContent = t("s_example", {
+      freq: params.freq,
+      length: params.length_display,
+      unit: params.length_unit
+    });
 
     var tbody = document.getElementById('table_body');
     tbody.innerHTML = '';
 
     document.getElementById('no_results').classList.toggle('hidden', sorted_rows.length > 0);
+
+    var sTitle = t("col_s_units_title");
 
     sorted_rows.forEach(o => {
       var tr = document.createElement('tr');
@@ -578,6 +685,7 @@
         { html: '<span class="font-medium text-slate-900">' + o.name + '</span>', cls: "px-4 py-2.5 text-left" },
         { html: o.manufacturer, cls: "px-4 py-2.5 text-left text-slate-500" },
         { html: o.att, cls: "px-4 py-2.5 text-right tabular-nums font-medium" },
+        { html: o.s_units, cls: "px-4 py-2.5 text-right tabular-nums", title: sTitle },
         { html: o.loss_percentage, cls: "px-4 py-2.5 text-right tabular-nums" },
         { html: o.pwr_out, cls: "px-4 py-2.5 text-right tabular-nums" },
         { html: (o.diameter !== null ? o.diameter : "—"), cls: "px-4 py-2.5 text-right tabular-nums text-slate-500 hidden md:table-cell" },
@@ -592,6 +700,7 @@
         var td = document.createElement('td');
         td.className = c.cls;
         td.innerHTML = c.html;
+        if (c.title) td.title = c.title;
         tr.appendChild(td);
       });
 
@@ -606,10 +715,12 @@
     th.addEventListener('click', function() { setSort(th.dataset.sort); });
   });
 
+  current_lang = detectLanguage();
+  document.getElementById("lang").value = current_lang;
   populateManufacturers();
   populateBandButtons();
   updateLengthUnitUI();
-  update();
+  applyI18n();
 
 </script>
 

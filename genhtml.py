@@ -12,8 +12,14 @@ def generate_html():
     with open(os.path.join(current_dir, 'cables.yaml'), 'r') as cable_yaml_file:
         cable_data_json = json.dumps(yaml.safe_load(cable_yaml_file))
 
+    with open(os.path.join(current_dir, 'locales.json'), 'r') as locales_file:
+        locales_json = json.dumps(json.load(locales_file))
+
     with open(os.path.join(current_dir, 'index.html.j2'), 'r') as template_file:
-        rendered = jinja2.Template(template_file.read()).render(cable_json=cable_data_json)
+        rendered = jinja2.Template(template_file.read()).render(
+            cable_json=cable_data_json,
+            locales_json=locales_json,
+        )
 
     with open(os.path.join(current_dir, 'docs/index.html'), 'w') as output_html:
         output_html.write(rendered)
