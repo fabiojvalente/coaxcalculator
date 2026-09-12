@@ -112,7 +112,12 @@
   <!-- Tab: filters + table -->
   <div id="tab_cables" role="tabpanel" aria-labelledby="tab_btn_cables">
     <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5 mb-4">
-      <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500 mb-3" data-i18n="filters">Filters</h2>
+      <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+        <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500" data-i18n="filters">Filters</h2>
+        <button type="button" id="btn_reset_filters" onclick="resetFiltersAndSelection()"
+                class="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-50"
+                data-i18n="reset_filters">Reset</button>
+      </div>
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <label class="block">
           <span class="text-sm font-medium text-slate-700" data-i18n="search">Search</span>
@@ -126,7 +131,7 @@
           </select>
         </label>
       </div>
-      <p class="text-xs text-slate-400 mt-3" data-i18n="tip">Tip: click a cable in the table to focus it on the graph. Other cables leave the graph until you click them to add. Switch to the Graph tab to compare, or use “Show all” to reset.</p>
+      <p class="text-xs text-slate-400 mt-3" data-i18n="tip">Tip: click a cable in the table to focus it on the graph. Other cables leave the graph until you click them to add. Use Reset to clear search, manufacturer, and selection.</p>
     </div>
 
     <p id="summary" class="text-sm text-slate-500 mb-2"></p>
@@ -182,7 +187,7 @@
 
     <div id="selected_detail" class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden hidden">
       <div class="px-5 py-3 border-b border-slate-100 flex items-center justify-between gap-2">
-        <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500" data-i18n="selected_table_title">Selected cables</h2>
+        <h2 id="selected_table_heading" class="text-sm font-semibold uppercase tracking-wide text-slate-500">Selected cables</h2>
       </div>
       <div class="overflow-x-auto">
         <table class="w-full text-sm">
@@ -622,6 +627,7 @@
     var panel = document.getElementById("selected_detail");
     var tbody = document.getElementById("selected_table_body");
     var empty = document.getElementById("selected_empty");
+    var heading = document.getElementById("selected_table_heading");
     if (!panel || !tbody) return;
 
     var hasSelection = selected.length > 0;
@@ -629,6 +635,14 @@
     if (!hasSelection) {
       tbody.innerHTML = "";
       return;
+    }
+
+    if (heading) {
+      heading.textContent = t("selected_table_title", {
+        freq: params.freq,
+        length: params.length_display,
+        unit: params.length_unit
+      });
     }
 
     var rows = selected.map(function(key) { return buildCableRow(key, params); }).filter(Boolean);
@@ -831,6 +845,13 @@
   }
 
   function clearSelection() {
+    selected = [];
+    update();
+  }
+
+  function resetFiltersAndSelection() {
+    document.getElementById("search").value = "";
+    document.getElementById("manufacturer").value = "";
     selected = [];
     update();
   }
