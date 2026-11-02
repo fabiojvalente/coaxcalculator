@@ -435,6 +435,16 @@ ContestFlex-10:
     ext_diameter_mm: 10.3
     velocity_factor: 0.87
     impedance: 50
+ContestFlex-5:
+  name: Contest Flex 5 (M&P)
+  manufacturer: Messi & Paolini
+  type: Contest Flex 5
+  attenuation: { 1.8: 1.4, 3.5: 1.9, 7: 2.3, 10: 2.6, 14: 3.0, 21: 3.6, 28: 4.1, 50: 5.6, 100: 8.2, 144: 10.0, 200: 11.8, 430: 17.9, 800: 25.2, 1000: 28.3, 1296: 32.5, 2400: 46.5, 3000: 53.3, 4000: 64.8, 5000: 75.7, 6000: 87.0 }
+  data_source: https://messi.it/dati/immagini/12280-CONTESTFLEX5-CONTESTFLEX-SERIES-BAll1-EN.pdf
+  additional_info:
+    ext_diameter_mm: 5.4
+    velocity_factor: 0.87
+    impedance: 50
 FSJ4-50B:
   name: FSJ4-50B (Commscope)
   manufacturer: Commscope
